@@ -1,3 +1,5 @@
+// ignore_for_file: sort_child_properties_last, prefer_const_constructors
+
 import 'package:app_saude/field_form.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,8 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  String btnPassword = '';
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -46,6 +50,11 @@ class _LoginFormState extends State<LoginForm> {
                     child: const Text(
                       'Esqueceu sua senha?',
                       style: TextStyle(color: Colors.blueGrey),
+                    ),
+                    style: TextButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     )),
               ],
             ),

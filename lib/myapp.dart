@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'App Saúde',
       theme: ThemeData(),
-      home: const LoginPage(),
+      home: const LoadingPage(),
     );
   }
 }

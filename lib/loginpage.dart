@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:app_saude/login_form.dart';
 import 'package:flutter/material.dart';
 
@@ -13,23 +15,32 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('App Saúde'),
+        title: const Text(
+          'App Saúde',
+          style: TextStyle(
+              color: Color.fromRGBO(67, 136, 131, 1.0),
+              fontSize: 24,
+              fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
       ),
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            const DrawerHeader(
-              decoration: BoxDecoration(
+            DrawerHeader(
+              decoration: const BoxDecoration(
                 color: Color.fromRGBO(67, 136, 131, 1.0),
               ),
-              child: Text(
-                'Menu de Ajuda',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+              child: Container(
+                margin: EdgeInsets.only(top: 40),
+                child: Text(
+                  'Menu de Ajuda',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
             ),
