@@ -1,5 +1,5 @@
 import 'package:app_saude/loadingpage.dart';
-import 'package:app_saude/loginpage.dart';
+import 'package:app_saude/registerpage.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'App Saúde',
       theme: ThemeData(),
-      home: const LoadingPage(),
+      home: const RegisterPage(),
     );
   }
 }

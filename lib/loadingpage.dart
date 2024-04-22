@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:ui';
-
 import 'package:app_saude/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});
@@ -21,7 +18,7 @@ class _LoadingPageState extends State<LoadingPage>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (_) => const LoginPage(),
       ));
