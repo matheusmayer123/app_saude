@@ -2,6 +2,7 @@
 
 import 'package:app_saude/loginpage.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 
 class LoadingPage extends StatefulWidget {
