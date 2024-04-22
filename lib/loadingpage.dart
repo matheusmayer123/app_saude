@@ -19,7 +19,7 @@ class _LoadingPageState extends State<LoadingPage>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (_) => const LoginPage(),
       ));

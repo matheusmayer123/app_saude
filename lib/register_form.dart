@@ -1,16 +1,19 @@
 import 'package:app_saude/field_form.dart';
 import 'package:flutter/material.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({Key? key}) : super(key: key);
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _RegisterFormState extends State<RegisterForm> {
+  TextEditingController controllerName = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  TextEditingController controllerPasswordConfirm = TextEditingController();
+
   String btnPassword = '';
 
   @override
@@ -20,6 +23,14 @@ class _LoginFormState extends State<LoginForm> {
         padding: const EdgeInsets.all(25),
         child: Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
+            FieldForm(
+              label: 'Nome',
+              isPassword: false,
+              controller: controllerName,
+            ),
             SizedBox(
               height: 10,
             ),
@@ -39,49 +50,16 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               height: 10,
             ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      minimumSize: Size.zero,
-                      padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: const Text(
-                      'Esqueceu sua senha?',
-                      style: TextStyle(color: Colors.blueGrey),
-                    ),
-                  ),
-                ],
-              ),
+            FieldForm(
+              label: ' Confirmar Senha',
+              isPassword: true,
+              controller: controllerPasswordConfirm,
             ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    height: 80,
-                    width: 350,
-                    child: TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(62, 124, 120, 1.0),
-                        ),
-                      ),
-                      child: const Text(
-                        'Entrar',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
                   Container(
                     height: 80,
                     width: 350,
