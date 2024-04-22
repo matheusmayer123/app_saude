@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:ui';
-
 import 'package:app_saude/loginpage.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({super.key});

@@ -24,7 +24,7 @@ class _UserFormState extends State<UserForm> {
             isPassword: false,
             controller: controllerName,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           FieldForm(
@@ -32,7 +32,7 @@ class _UserFormState extends State<UserForm> {
             isPassword: false,
             controller: controllerEmail,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           FieldForm(
@@ -40,7 +40,7 @@ class _UserFormState extends State<UserForm> {
             isPassword: true,
             controller: controllerPassword,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Container(
@@ -65,16 +65,16 @@ class _UserFormState extends State<UserForm> {
                 margin: const EdgeInsets.only(top: 15),
                 child: TextButton(
                     onPressed: () {},
+                    style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                            Color.fromRGBO(62, 124, 120, 1.0))),
                     child: const Text(
                       'Salvar',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       ),
-                    ),
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Color.fromRGBO(62, 124, 120, 1.0)))),
+                    )),
               ),
             ),
           ),
