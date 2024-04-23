@@ -24,39 +24,6 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
         centerTitle: true,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color.fromRGBO(67, 136, 131, 1.0),
-              ),
-              child: Container(
-                margin: EdgeInsets.only(top: 40),
-                child: Text(
-                  'Menu de Ajuda',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('O que é o App Saúde?'),
-              onTap: () {},
-              textColor: Colors.lightBlue,
-            ),
-            ListTile(
-              title: const Text('Help'),
-              onTap: () {},
-              textColor: Colors.lightBlue,
-            ),
-          ],
-        ),
-      ),
       body: const Center(
         child: Column(
           children: [

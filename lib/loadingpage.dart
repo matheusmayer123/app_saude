@@ -19,7 +19,7 @@ class _LoadingPageState extends State<LoadingPage>
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(milliseconds: 500), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (_) => const LoginPage(),
       ));
@@ -54,7 +54,7 @@ class _LoadingPageState extends State<LoadingPage>
               Text(
                 'ISE',
                 style: TextStyle(
-                  color: Color(0xFFFFFFFF),
+                  color: Colors.white,
                   fontSize: 60,
                 ),
               ),

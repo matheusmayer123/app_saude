@@ -1,4 +1,5 @@
 import 'package:app_saude/field_form.dart';
+import 'package:app_saude/registerpage.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
@@ -37,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: controllerPassword,
             ),
             SizedBox(
-              height: 10,
+              height: 15,
             ),
             Container(
               child: Row(
@@ -60,7 +61,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
@@ -82,23 +83,24 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 80,
-                    width: 350,
-                    child: TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(62, 124, 120, 1.0),
-                        ),
-                      ),
-                      child: const Text(
-                        'Cadastrar',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPage()));
+                    },
+                    child: const Text(
+                      'Cadastre-se aqui!',
+                      style: TextStyle(color: Colors.blueGrey),
                     ),
                   ),
                 ],

@@ -1,4 +1,5 @@
 import 'package:app_saude/field_form.dart';
+import 'package:app_saude/registerpage.dart';
 import 'package:flutter/material.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -55,27 +56,40 @@ class _RegisterFormState extends State<RegisterForm> {
               isPassword: true,
               controller: controllerPasswordConfirm,
             ),
+            SizedBox(
+              height: 20,
+            ),
             Padding(
               padding: const EdgeInsets.all(20),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    height: 80,
-                    width: 350,
-                    child: TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          Color.fromRGBO(62, 124, 120, 1.0),
-                        ),
-                      ),
-                      child: const Text(
-                        'Cadastrar',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
+                  Center(
+                    child: Container(
+                      height: 80,
+                      width: 200,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 70,
+                            width: 320,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  Color.fromRGBO(62, 124, 120, 1.0),
+                                ),
+                              ),
+                              child: const Text(
+                                'Cadastrar',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
