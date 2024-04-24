@@ -1,9 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:app_saude/field_form.dart';
-import 'package:app_saude/registerpage.dart';
+
 import 'package:flutter/material.dart';
 
 class RegisterForm extends StatefulWidget {
-  const RegisterForm({Key? key}) : super(key: key);
+  const RegisterForm({super.key});
 
   @override
   State<RegisterForm> createState() => _RegisterFormState();
@@ -65,12 +67,12 @@ class _RegisterFormState extends State<RegisterForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Center(
-                    child: Container(
+                    child: SizedBox(
                       height: 80,
                       width: 200,
                       child: Column(
                         children: [
-                          Container(
+                          SizedBox(
                             height: 70,
                             width: 320,
                             child: TextButton(

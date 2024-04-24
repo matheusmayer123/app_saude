@@ -1,16 +1,20 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:app_saude/field_form.dart';
 import 'package:app_saude/registerpage.dart';
 import 'package:flutter/material.dart';
 
+import 'forgot_password.dart';
+
 class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+  const LoginForm({super.key});
 
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
-  TextEditingController controllerEmail = TextEditingController();
+  TextEditingController controllerCPF = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   String btnPassword = '';
 
@@ -25,9 +29,9 @@ class _LoginFormState extends State<LoginForm> {
               height: 10,
             ),
             FieldForm(
-              label: 'Email',
+              label: 'CPF',
               isPassword: false,
-              controller: controllerEmail,
+              controller: controllerCPF,
             ),
             SizedBox(
               height: 10,
@@ -40,31 +44,34 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(
               height: 15,
             ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      minimumSize: Size.zero,
-                      padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: const Text(
-                      'Esqueceu sua senha?',
-                      style: TextStyle(color: Colors.blueGrey),
-                    ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EsqueceuSenha()));
+                  },
+                  style: TextButton.styleFrom(
+                    minimumSize: Size.zero,
+                    padding: EdgeInsets.zero,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                ],
-              ),
+                  child: const Text(
+                    'Esqueceu sua senha?',
+                    style: TextStyle(color: Colors.blueGrey),
+                  ),
+                ),
+              ],
             ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
+                  SizedBox(
                     height: 80,
                     width: 350,
                     child: TextButton(

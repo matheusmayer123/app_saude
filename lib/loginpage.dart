@@ -16,7 +16,8 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'App Saúde',
+          'Bem-vindo ao ISE',
+          textAlign: TextAlign.center,
           style: TextStyle(
               color: Color.fromRGBO(67, 136, 131, 1.0),
               fontSize: 24,
@@ -25,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
         centerTitle: true,
       ),
       drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 230, 230, 230),
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
