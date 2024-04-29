@@ -166,19 +166,19 @@ class _RegisterPageState extends State<RegisterPage> {
         bairro: controllerBairro.text,
         senha: controllerSenha.text);
     var result = await MongoDataBase.insert(data);
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("testeTestando" + _id.$oid)));
-    _clearAll();
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text("Envio Realizado")));
+    // _clearAll(); SERVE PARA LIMPAR  OS DADOS DADOS DO FORMULARIO Não é necessario porem deixei aqui caso precise lá pra frente
   }
 
-  void _clearAll() {
-    controllerNome.text = "";
-    controllerSobrenome.text = "";
-    controllerEmail.text = "";
-    controllerCPF.text = "";
-    controllerRua.text = "";
-    controllerNumeroCasa.text = "";
-    controllerBairro.text = "";
-    controllerSenha.text = "";
-  }
+  // void _clearAll() {
+  //   controllerNome.text = "";
+  //   controllerSobrenome.text = "";
+  //   controllerEmail.text = "";
+  //   controllerCPF.text = "";
+  //   controllerRua.text = "";
+  //   controllerNumeroCasa.text = "";
+  //   controllerBairro.text = "";
+  //   controllerSenha.text = "";
+  // }
 }
