@@ -17,9 +17,9 @@ class MongoDataBase {
     try {
       var result = await collection_Name.insertOne(data.toJson());
       if (result.isSuccess) {
-        return "enviado dados";
+        return "enviado dadossss";
       } else {
-        return "nao foi enviado";
+        return "nao foi enviadooo";
       }
     } catch (e) {
       print(e.toString());
