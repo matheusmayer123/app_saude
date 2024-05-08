@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:app_saude/dbconnection/MongoDbModel.dart';
-import 'package:app_saude/dbconnection/mongodb.dart';
-import 'package:mongo_dart/mongo_dart.dart' as M;
+
 import 'package:app_saude/created_account.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,15 +15,14 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController controllerNome = TextEditingController();
+  TextEditingController controllerName = TextEditingController();
   TextEditingController controllerSobrenome = TextEditingController();
-  TextEditingController controllerEmail = TextEditingController();
-  TextEditingController controllerCPF = TextEditingController();
   TextEditingController controllerRua = TextEditingController();
-  TextEditingController controllerNumeroCasa = TextEditingController();
   TextEditingController controllerBairro = TextEditingController();
-  TextEditingController controllerSenha = TextEditingController();
-
+  TextEditingController controllerNumeroCasa = TextEditingController();
+  TextEditingController controllerCPF = TextEditingController();
+  TextEditingController controllerEmail = TextEditingController();
+  TextEditingController controllerPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 FieldForm(
                   label: 'Nome',
                   isPassword: false,
-                  controller: controllerNome,
+                  controller: controllerName,
                 ),
                 const SizedBox(
                   height: 10,
@@ -109,9 +106,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 10,
                 ),
                 FieldForm(
-                  label: 'Senha', // adicionar um confirmar senha depois
+                  label: 'Senha',
                   isPassword: true,
-                  controller: controllerSenha,
+                  controller: controllerPassword,
                 ),
                 const SizedBox(
                   height: 10,
@@ -125,7 +122,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       margin: const EdgeInsets.only(top: 15),
                       child: TextButton(
                           onPressed: () {
-                            _insertData();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -152,33 +148,4 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
-  Future<void> _insertData() async {
-    var _id = M.ObjectId();
-    final data = MongoDbModel(
-        id: _id,
-        nome: controllerNome.text,
-        sobrenome: controllerSobrenome.text,
-        email: controllerEmail.text,
-        cpf: controllerCPF.text,
-        rua: controllerRua.text,
-        numeroCasa: controllerNumeroCasa.text,
-        bairro: controllerBairro.text,
-        senha: controllerSenha.text);
-    var result = await MongoDataBase.insert(data);
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text("Envio Realizado")));
-    // _clearAll(); SERVE PARA LIMPAR  OS DADOS DADOS DO FORMULARIO Não é necessario porem deixei aqui caso precise lá pra frente
-  }
-
-  // void _clearAll() {
-  //   controllerNome.text = "";
-  //   controllerSobrenome.text = "";
-  //   controllerEmail.text = "";
-  //   controllerCPF.text = "";
-  //   controllerRua.text = "";
-  //   controllerNumeroCasa.text = "";
-  //   controllerBairro.text = "";
-  //   controllerSenha.text = "";
-  // }
 }
