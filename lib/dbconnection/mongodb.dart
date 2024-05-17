@@ -13,6 +13,14 @@ class MongoDataBase {
     await db.open();
   }
 
+  static Future<void> insertContact(Map<String, dynamic> contact) async {
+    await collection_Name?.insert(contact);
+  }
+
+  static Future<List<Map<String, dynamic>>> getContacts() async {
+    return await collection_Name?.find().toList() ?? [];
+  }
+
   static Future<String> insert(MongoDbModel data) async {
     try {
       var result = await collection_Name.insertOne(data.toJson());

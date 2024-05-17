@@ -1,4 +1,5 @@
-import 'package:app_saude/loadingpage.dart';
+import 'package:app_saude/lista_contatos.dart';
+import 'package:app_saude/pages/loadingpage.dart';
 
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'App Saúde',
       theme: ThemeData(),
-      home: const LoadingPage(),
+      home: ContactListPage(),
     );
   }
 }

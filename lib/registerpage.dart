@@ -2,7 +2,7 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/dbconnection/mongodb.dart';
 import 'package:mongo_dart/mongo_dart.dart' as M;
-import 'package:app_saude/created_account.dart';
+import 'package:app_saude/pages/created_account.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

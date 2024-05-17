@@ -4,7 +4,7 @@ import 'package:app_saude/field_form.dart';
 import 'package:app_saude/registerpage.dart';
 import 'package:flutter/material.dart';
 
-import 'forgot_password.dart';
+import 'pages/forgot_password.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
