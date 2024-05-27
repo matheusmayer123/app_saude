@@ -1,6 +1,6 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/pages/created_account.dart';
-import 'package:app_saude/user_provider.dart';
+import 'package:app_saude/dbconnection/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mongo_dart/mongo_dart.dart' as M;

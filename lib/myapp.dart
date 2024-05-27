@@ -1,7 +1,7 @@
 import 'package:app_saude/pages/agenda_consulta.dart';
 import 'package:app_saude/pages/home_page.dart';
 import 'package:app_saude/pages/registerpage.dart';
-import 'package:app_saude/user_provider.dart';
+import 'package:app_saude/dbconnection/user_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

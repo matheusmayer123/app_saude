@@ -10,7 +10,7 @@ class MongoDataBase {
   static Future<void> connect() async {
     _db = await Db.create(MONGO_URL);
     await _db?.open();
-    _collection = _db?.collection(COLLECTION_NAME);
+    _collection = _db?.collection(COLLECTION_USERS);
   }
 
   static Future<List<Map<String, dynamic>>> getUser() async {
@@ -35,14 +35,14 @@ class MongoDataBase {
       return e.toString();
     }
   }
-
-  static Future<void> deleteUser(Map<String, dynamic> contact) async {
+// usando para nada por enquanto
+  /*static Future<void> deleteUser(Map<String, dynamic> contact) async {
     try {
       await _collection?.remove(where.eq('_id', contact['_id']));
     } catch (e) {
       log('Error deleting contact: $e');
     }
-  }
+  }*/
 
   static Future<void> updateUser(
       ObjectId id, Map<String, dynamic> updatedContact) async {
