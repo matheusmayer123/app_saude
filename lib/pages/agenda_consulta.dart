@@ -1,144 +1,110 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AgendaConsultaPage extends StatefulWidget {
-  const AgendaConsultaPage({super.key});
+  const AgendaConsultaPage({Key? key}) : super(key: key);
 
   @override
   State<AgendaConsultaPage> createState() => _AgendaConsultaPageState();
 }
 
 class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
+  String? _selectedEspecialidade;
+  String? _selectedLocalizacao;
+  String? _selectedMedico;
+  String? _selectedFormaPagamento;
+
+  final List<String> especialidades = [
+    'Cardiologia',
+    'Dermatologia',
+    'Pediatria'
+  ];
+  final List<String> localizacoes = ['São Paulo', 'Rio de Janeiro', 'Brasília'];
+  final List<String> medicos = ['Dr. João', 'Dra. Maria', 'Dr. Pedro'];
+  final List<String> formasPagamento = [
+    'Dinheiro',
+    'Cartão de crédito',
+    'Plano de saúde'
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          ('Instituto De Saúde Especializado'),
-        ),
+        title: const Text('Agendar Consultas'),
         centerTitle: true,
-        foregroundColor: Color.fromARGB(255, 255, 255, 255),
-        backgroundColor: const Color.fromRGBO(62, 124, 120, 1.0),
+        backgroundColor: Colors.purple,
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 125,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                buildCard(),
-                SizedBox(width: 20),
-                buildCard(),
-                SizedBox(width: 20),
-                buildCard(),
-                SizedBox(width: 20),
-                buildCard(),
-                SizedBox(width: 20),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            DropdownButtonFormField<String>(
+              value: _selectedEspecialidade,
+              items: especialidades.map((String especialidade) {
+                return DropdownMenuItem<String>(
+                  value: especialidade,
+                  child: Text(especialidade),
+                );
+              }).toList(),
+              hint: Text('Escolha uma especialidade'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedEspecialidade = newValue;
+                });
+              },
             ),
-          ),
-          SizedBox(height: 10), // dar um espaço entre o list view e grid
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        CupertinoIcons.calendar_badge_plus,
-                        color: Colors.black,
-                        size: 50,
-                      ),
-                      Text("Agendar Consulta"),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        CupertinoIcons.qrcode_viewfinder,
-                        color: Colors.black,
-                        size: 50,
-                      ),
-                      Text("Escanear Check-In"),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        CupertinoIcons.lab_flask,
-                        color: Colors.black,
-                        size: 50,
-                      ),
-                      Text("Agendar Exames"),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        CupertinoIcons.doc_on_clipboard,
-                        color: Colors.black,
-                        size: 50,
-                      ),
-                      Text("Lita De Médicos"),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        CupertinoIcons.exclamationmark_bubble_fill,
-                        color: Colors.black,
-                        size: 50,
-                      ),
-                      Text("Urgência"),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Icon(
-                        CupertinoIcons.lab_flask_solid,
-                        color: Colors.black,
-                        size: 50,
-                      ),
-                      Text("Resultado De Exame"),
-                    ],
-                  ),
-                ),
-              ],
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _selectedLocalizacao,
+              items: localizacoes.map((String localizacao) {
+                return DropdownMenuItem<String>(
+                  value: localizacao,
+                  child: Text(localizacao),
+                );
+              }).toList(),
+              hint: Text('Escolha uma localização'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedLocalizacao = newValue;
+                });
+              },
             ),
-          ),
-        ],
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _selectedMedico,
+              items: medicos.map((String medico) {
+                return DropdownMenuItem<String>(
+                  value: medico,
+                  child: Text(medico),
+                );
+              }).toList(),
+              hint: Text('Escolha um médico'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedMedico = newValue;
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _selectedFormaPagamento,
+              items: formasPagamento.map((String forma) {
+                return DropdownMenuItem<String>(
+                  value: forma,
+                  child: Text(forma),
+                );
+              }).toList(),
+              hint: Text('Escolha uma forma de pagamento'),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedFormaPagamento = newValue;
+                });
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
-
-  Widget buildCard() => Container(
-        width: 150,
-        height: 100,
-        color: Colors.red,
-      );
 }
