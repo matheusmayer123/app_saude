@@ -1,20 +1,19 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
-import 'package:app_saude/registerpage.dart';
 import 'package:flutter/material.dart';
 
 class ViewUserPage extends StatelessWidget {
   final MongoDbModel? user;
 
-  ViewUserPage({this.user});
+  const ViewUserPage({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Visualizar Usuário'),
+        title: const Text('Visualizar Usuário'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

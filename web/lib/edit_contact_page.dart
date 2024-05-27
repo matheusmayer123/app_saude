@@ -1,12 +1,11 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/dbconnection/mongodb.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class EditUserPage extends StatefulWidget {
   final MongoDbModel user;
 
-  EditUserPage({required this.user});
+  const EditUserPage({super.key, required this.user});
 
   @override
   _EditUserPageState createState() => _EditUserPageState();
@@ -40,17 +39,17 @@ class _EditUserPageState extends State<EditUserPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar Usuário'),
+        title: const Text('Editar Usuário'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
               TextFormField(
                 initialValue: _nome,
-                decoration: InputDecoration(labelText: 'Nome'),
+                decoration: const InputDecoration(labelText: 'Nome'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira um nome';
@@ -81,7 +80,7 @@ class _EditUserPageState extends State<EditUserPage> {
                     Navigator.pop(context);
                   }
                 },
-                child: Text('Salvar'),
+                child: const Text('Salvar'),
               ),
             ],
           ),

@@ -1,5 +1,4 @@
 import 'package:app_saude/pages/loginpage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EsqueceuSenha extends StatefulWidget {
@@ -50,8 +49,8 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
               const SizedBox(
                 height: 10,
               ),
-              TextField(
-                decoration: const InputDecoration(
+              const TextField(
+                decoration: InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(
                     color: Color.fromRGBO(67, 136, 131, 1.0),
@@ -63,7 +62,7 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ElevatedButton(
@@ -71,16 +70,16 @@ class _EsqueceuSenhaState extends State<EsqueceuSenha> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => LoginPage(),
+                        builder: (context) => const LoginPage(),
                       ));
                 },
-                child: const Text(
-                  'Enviar',
-                  style: TextStyle(color: Colors.white),
-                ),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                       const Color.fromRGBO(62, 124, 120, 1.0)),
+                ),
+                child: const Text(
+                  'Enviar',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ],

@@ -128,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        ConfirmarEmailContaNova()));
+                                        const ConfirmarEmailContaNova()));
                           },
                           style: const ButtonStyle(
                               backgroundColor: MaterialStatePropertyAll(
@@ -152,9 +152,9 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> _insertData(BuildContext context) async {
-    var _id = M.ObjectId();
+    var id = M.ObjectId();
     final data = MongoDbModel(
-      id: _id,
+      id: id,
       nome: controllerNome.text,
       sobrenome: controllerSobrenome.text,
       email: controllerEmail.text,
@@ -170,7 +170,7 @@ class _RegisterPageState extends State<RegisterPage> {
         .saveUserToDatabase(data);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Usuário adicionado com sucesso")),
+      const SnackBar(content: Text("Usuário adicionado com sucesso")),
     );
   }
 }

@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:app_saude/contact_list_page.dart';
+import 'package:app_saude/pages/contact_list_page.dart';
 import 'package:app_saude/field_form.dart';
-import 'package:app_saude/registerpage.dart';
+import 'package:app_saude/pages/registerpage.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/forgot_password.dart';

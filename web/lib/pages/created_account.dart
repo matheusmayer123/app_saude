@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'loginpage.dart';
@@ -50,16 +49,16 @@ class _ConfirmarEmailContaNovaState extends State<ConfirmarEmailContaNova> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LoginPage(),
+                      builder: (context) => const LoginPage(),
                     ));
               },
-              child: const Text(
-                'Voltar',
-                style: TextStyle(color: Colors.white),
-              ),
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                     const Color.fromRGBO(67, 136, 131, 1.0)),
+              ),
+              child: const Text(
+                'Voltar',
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],

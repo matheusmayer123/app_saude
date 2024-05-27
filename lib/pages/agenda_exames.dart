@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class AgendaExamesPage extends StatefulWidget {
+  const AgendaExamesPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<AgendaExamesPage> createState() => _AgendaExamesPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _AgendaExamesPageState extends State<AgendaExamesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,11 +92,11 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Icon(
-                        Icons.calendar_month_outlined,
+                        CupertinoIcons.doc_on_clipboard,
                         color: Colors.black,
                         size: 50,
                       ),
-                      Text("Agendar Consulta"),
+                      Text("Lita De Médicos"),
                     ],
                   ),
                 ),
@@ -106,11 +106,11 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Icon(
-                        Icons.calendar_month_outlined,
+                        CupertinoIcons.exclamationmark_bubble_fill,
                         color: Colors.black,
                         size: 50,
                       ),
-                      Text("Agendar Consulta"),
+                      Text("Urgência"),
                     ],
                   ),
                 ),
@@ -120,11 +120,11 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Icon(
-                        Icons.calendar_month_outlined,
+                        CupertinoIcons.lab_flask_solid,
                         color: Colors.black,
                         size: 50,
                       ),
-                      Text("Agendar Consulta"),
+                      Text("Resultado De Exame"),
                     ],
                   ),
                 ),

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,28 +17,28 @@ class _HomePageState extends State<HomePage> {
           ('Instituto De Saúde Especializado'),
         ),
         centerTitle: true,
-        foregroundColor: Color.fromARGB(255, 255, 255, 255),
+        foregroundColor: const Color.fromARGB(255, 255, 255, 255),
         backgroundColor: const Color.fromRGBO(62, 124, 120, 1.0),
       ),
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: 125,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
                 buildCard(),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 buildCard(),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 buildCard(),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 buildCard(),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
               ],
             ),
           ),
-          SizedBox(height: 10), // dar um espaço entre o list view e grid
+          const SizedBox(height: 10), // dar um espaço entre o list view e grid
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
