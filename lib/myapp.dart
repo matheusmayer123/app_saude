@@ -1,4 +1,4 @@
-import 'package:app_saude/pages/agenda_exames.dart';
+import 'package:app_saude/pages/agenda_consulta.dart';
 import 'package:app_saude/pages/home_page.dart';
 import 'package:app_saude/user_provider.dart';
 

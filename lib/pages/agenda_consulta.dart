@@ -2,14 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class AgendaExamesPage extends StatefulWidget {
-  const AgendaExamesPage({super.key});
+class AgendaConsultaPage extends StatefulWidget {
+  const AgendaConsultaPage({super.key});
 
   @override
-  State<AgendaExamesPage> createState() => _AgendaExamesPageState();
+  State<AgendaConsultaPage> createState() => _AgendaConsultaPageState();
 }
 
-class _AgendaExamesPageState extends State<AgendaExamesPage> {
+class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
