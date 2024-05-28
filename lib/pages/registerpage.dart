@@ -50,7 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Selecione Se For Médico?',
+                      'Selecione Se For Médico',
                       style: TextStyle(fontSize: 16),
                     ),
                     Switch(
