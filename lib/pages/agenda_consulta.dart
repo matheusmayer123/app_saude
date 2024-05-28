@@ -47,14 +47,14 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
   List<TimeOfDay> _availableTimes = [];
 
   void _updateAvailableTimes(DateTime selectedDate) {
-    // Aqui você deve implementar a lógica para obter os horários disponíveis
-    // para a data selecionada. Suponha que você tenha acesso a essa lógica.
-    // Para este exemplo, estou apenas preenchendo uma lista de horários fictícios.
     _availableTimes.clear();
-    _availableTimes.add(TimeOfDay(hour: 8, minute: 0));
-    _availableTimes.add(TimeOfDay(hour: 9, minute: 0));
-    _availableTimes.add(TimeOfDay(hour: 10, minute: 0));
-    _availableTimes.add(TimeOfDay(hour: 11, minute: 0));
+    for (int hour = 0; hour < 25; hour++) {
+      _availableTimes.add(TimeOfDay(hour: hour, minute: 0));
+    }
+  }
+
+  String _formatTimeOfDay(TimeOfDay time) {
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
   }
 
   @override
@@ -182,7 +182,7 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
               items: _availableTimes.map((TimeOfDay time) {
                 return DropdownMenuItem<TimeOfDay>(
                   value: time,
-                  child: Text(time.format(context)),
+                  child: Text(_formatTimeOfDay(time)),
                 );
               }).toList(),
               hint: const Text('Escolha um horário'),
