@@ -1,8 +1,8 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
-import 'package:app_saude/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app_saude/dbconnection/medico_provider.dart';
+import 'package:app_saude/providers/medico_provider.dart';
+import 'package:app_saude/providers/agenda_consulta_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class AgendaConsultaPage extends StatefulWidget {
@@ -47,9 +47,11 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
 
   List<TimeOfDay> _availableTimes = [];
 
+  bool _isLoading = false;
+
   void _updateAvailableTimes(DateTime selectedDate) {
     _availableTimes.clear();
-    for (int hour = 0; hour < 25; hour++) {
+    for (int hour = 8; hour < 20; hour++) {
       _availableTimes.add(TimeOfDay(hour: hour, minute: 0));
     }
   }
@@ -111,7 +113,7 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                     if (snapshot.connectionState == ConnectionState.waiting ||
                         !snapshot.hasData ||
                         snapshot.data!.isEmpty) {
-                      return SizedBox(); // Widget vazio quando ainda está carregando ou não há dados
+                      return const SizedBox(); // Widget vazio quando ainda está carregando ou não há dados
                     } else if (snapshot.hasError) {
                       return Text(
                           'Erro ao carregar médicos: ${snapshot.error}');
@@ -147,6 +149,7 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                     child: Text('Cartão de crédito')),
                 DropdownMenuItem(
                     value: 'Plano de saúde', child: Text('Plano de saúde')),
+                DropdownMenuItem(value: 'Pix', child: Text('Pix')),
               ],
               hint: const Text('Escolha uma forma de pagamento'),
               onChanged: (String? newValue) {
@@ -163,7 +166,7 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime.now(),
-                  lastDate: DateTime.now().add(const Duration(days: 30)),
+                  lastDate: DateTime.now().add(const Duration(days: 60)),
                 );
                 if (pickedDate != null) {
                   setState(() {
@@ -195,12 +198,41 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
               },
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Adicione aqui a lógica para salvar o agendamento com a data e horário selecionados
-              },
-              child: const Text('Confirmar Agendamento'),
-            ),
+            _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : ElevatedButton(
+                    onPressed: () async {
+                      if (_selectedEspecialidade != null &&
+                          _selectedLocalizacao != null &&
+                          _selectedMedico != null &&
+                          _selectedFormaPagamento != null &&
+                          _selectedDate != null &&
+                          _selectedTime != null) {
+                        setState(() {
+                          _isLoading = true;
+                        });
+
+                        final newAppointment = {
+                          'especialidade': _selectedEspecialidade,
+                          'localizacao': _selectedLocalizacao,
+                          'medico': _selectedMedico,
+                          'forma_pagamento': _selectedFormaPagamento,
+                          'data': _selectedDate,
+                          'horario': _selectedTime?.format(context),
+                        };
+                        await Provider.of<AgendaConsultaProvider>(context,
+                                listen: false)
+                            .saveAgendaConsultaToDatabase(newAppointment);
+
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      } else {
+                        // Mostrar uma mensagem de erro ou aviso
+                      }
+                    },
+                    child: const Text('Confirmar Agendamento'),
+                  ),
           ],
         ),
       ),
