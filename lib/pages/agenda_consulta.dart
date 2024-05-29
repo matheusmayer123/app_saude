@@ -3,6 +3,7 @@ import 'package:app_saude/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_saude/dbconnection/medico_provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class AgendaConsultaPage extends StatefulWidget {
   const AgendaConsultaPage({Key? key}) : super(key: key);
@@ -158,6 +159,7 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
             TextButton(
               onPressed: () async {
                 final DateTime? pickedDate = await showDatePicker(
+                  locale: const Locale('pt', 'BR'),
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime.now(),
