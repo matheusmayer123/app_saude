@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.teal,
         ),
-        home: const AgendaConsultaPage(),
+        home: const HomePage(),
       ),
     );
   }
