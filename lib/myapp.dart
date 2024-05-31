@@ -1,5 +1,6 @@
 import 'package:app_saude/pages/agenda_consulta.dart';
 import 'package:app_saude/pages/home_page.dart';
+import 'package:app_saude/pages/loginpage.dart';
 import 'package:app_saude/pages/registerpage.dart';
 import 'package:app_saude/providers/user_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.teal,
         ),
-        home: const HomePage(),
+        home: const LoginPage(),
       ),
     );
   }

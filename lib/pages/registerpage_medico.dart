@@ -1,20 +1,20 @@
+import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:mongo_dart/mongo_dart.dart' as M;
-import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/pages/created_account.dart';
-import 'package:app_saude/providers/user_provider.dart';
+import 'package:app_saude/providers/medico_provider.dart';
 
 import '../field_form.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+class RegisterPageMedico extends StatefulWidget {
+  const RegisterPageMedico({Key? key}) : super(key: key);
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<RegisterPageMedico> createState() => _RegisterPageMedicoState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageMedicoState extends State<RegisterPageMedico> {
   TextEditingController controllerNome = TextEditingController();
   TextEditingController controllerSobrenome = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
@@ -23,13 +23,14 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController controllerNumeroCasa = TextEditingController();
   TextEditingController controllerBairro = TextEditingController();
   TextEditingController controllerSenha = TextEditingController();
+  TextEditingController controllerCRM = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Cadastro de Paciente',
+          'Cadastro de Médico',
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.white),
         ),
@@ -42,6 +43,12 @@ class _RegisterPageState extends State<RegisterPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                FieldForm(
+                  label: 'CRM',
+                  isPassword: false,
+                  controller: controllerCRM,
+                ),
+                const SizedBox(height: 10),
                 FieldForm(
                   label: 'Nome',
                   isPassword: false,
@@ -141,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future<void> _insertData(BuildContext context) async {
     var id = M.ObjectId();
-    final user = MongoDbModel(
+    final medico = MedicoMongoDbModel(
       id: id,
       nome: controllerNome.text,
       sobrenome: controllerSobrenome.text,
@@ -151,12 +158,13 @@ class _RegisterPageState extends State<RegisterPage> {
       numeroCasa: controllerNumeroCasa.text,
       bairro: controllerBairro.text,
       senha: controllerSenha.text,
+      crm: controllerCRM.text,
     );
-    await Provider.of<UserProvider>(context, listen: false)
-        .saveUserToDatabase(user);
+    await Provider.of<MedicoProvider>(context, listen: false)
+        .saveMedicoToDatabase(medico);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Usuário adicionado com sucesso")),
+      const SnackBar(content: Text("Médico adicionado com sucesso")),
     );
   }
 }

@@ -3,6 +3,7 @@
 import 'package:app_saude/pages/contact_list_page.dart';
 import 'package:app_saude/field_form.dart';
 import 'package:app_saude/pages/registerpage.dart';
+import 'package:app_saude/pages/registerpage_medico.dart';
 import 'package:flutter/material.dart';
 
 import 'pages/forgot_password.dart';
@@ -103,7 +104,7 @@ class _LoginFormState extends State<LoginForm> {
                     style: TextButton.styleFrom(
                       minimumSize: Size.zero,
                       padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      tapTargetSize: MaterialTapTargetSize.padded,
                     ),
                     onPressed: () {
                       Navigator.push(
@@ -113,6 +114,23 @@ class _LoginFormState extends State<LoginForm> {
                     },
                     child: const Text(
                       'Cadastre-se aqui!',
+                      style: TextStyle(color: Colors.blueGrey),
+                    ),
+                  ),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      tapTargetSize: MaterialTapTargetSize.padded,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegisterPageMedico()));
+                    },
+                    child: const Text(
+                      'Cadastre-se aqui Medico',
                       style: TextStyle(color: Colors.blueGrey),
                     ),
                   ),
