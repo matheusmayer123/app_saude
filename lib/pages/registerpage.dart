@@ -15,6 +15,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController controllerNome = TextEditingController();
   TextEditingController controllerSobrenome = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
@@ -40,98 +42,151 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Padding(
           padding: const EdgeInsets.all(25),
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                FieldForm(
-                  label: 'Nome',
-                  isPassword: false,
-                  controller: controllerNome,
-                ),
-                const SizedBox(height: 10),
-                FieldForm(
-                  label: 'Sobrenome',
-                  isPassword: false,
-                  controller: controllerSobrenome,
-                ),
-                const SizedBox(height: 10),
-                FieldForm(
-                  label: 'Email',
-                  isPassword: false,
-                  controller: controllerEmail,
-                ),
-                const SizedBox(height: 10),
-                FieldForm(
-                  label: 'CPF',
-                  isPassword: false,
-                  controller: controllerCPF,
-                ),
-                const SizedBox(height: 10),
-                FieldForm(
-                  label: 'Rua',
-                  isPassword: false,
-                  controller: controllerRua,
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      child: FieldForm(
-                        label: 'Número',
-                        isPassword: false,
-                        controller: controllerNumeroCasa,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 150,
-                      child: FieldForm(
-                        label: 'Bairro',
-                        isPassword: false,
-                        controller: controllerBairro,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                FieldForm(
-                  label: 'Senha',
-                  isPassword: true,
-                  controller: controllerSenha,
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: SizedBox(
-                    height: 80,
-                    width: 200,
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 15),
-                      child: TextButton(
-                        onPressed: () async {
-                          await _insertData(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const ConfirmarEmailContaNova(),
-                            ),
-                          );
-                        },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                            const Color.fromRGBO(62, 124, 120, 1.0),
-                          ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  FieldForm(
+                    label: 'Nome',
+                    isPassword: false,
+                    controller: controllerNome,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Nome é obrigatório';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  FieldForm(
+                    label: 'Sobrenome',
+                    isPassword: false,
+                    controller: controllerSobrenome,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Sobrenome é obrigatório';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  FieldForm(
+                    label: 'Email',
+                    isPassword: false,
+                    controller: controllerEmail,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Email é obrigatório';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  FieldForm(
+                    label: 'CPF',
+                    isPassword: false,
+                    controller: controllerCPF,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'CPF é obrigatório';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  FieldForm(
+                    label: 'Rua',
+                    isPassword: false,
+                    controller: controllerRua,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Rua é obrigatório';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 150,
+                        child: FieldForm(
+                          label: 'Número',
+                          isPassword: false,
+                          controller: controllerNumeroCasa,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Número é obrigatório';
+                            }
+                            return null;
+                          },
                         ),
-                        child: const Text(
-                          'Salvar',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      SizedBox(
+                        width: 150,
+                        child: FieldForm(
+                          label: 'Bairro',
+                          isPassword: false,
+                          controller: controllerBairro,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Bairro é obrigatório';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  FieldForm(
+                    label: 'Senha',
+                    isPassword: true,
+                    controller: controllerSenha,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Senha é obrigatória';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: SizedBox(
+                      height: 80,
+                      width: 200,
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: TextButton(
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              await _insertData(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ConfirmarEmailContaNova(),
+                                ),
+                              );
+                            }
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              const Color.fromRGBO(62, 124, 120, 1.0),
+                            ),
+                          ),
+                          child: const Text(
+                            'Salvar',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
