@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class FieldForm extends StatelessWidget {
   String label;
   bool isPassword;

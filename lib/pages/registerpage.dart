@@ -4,6 +4,7 @@ import 'package:mongo_dart/mongo_dart.dart' as M;
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/pages/created_account.dart';
 import 'package:app_saude/providers/user_provider.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 import '../field_form.dart';
 
@@ -20,11 +21,23 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController controllerNome = TextEditingController();
   TextEditingController controllerSobrenome = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
-  TextEditingController controllerCPF = TextEditingController();
+  var controllerCPF = MaskedTextController(mask: '000.000.000-00');
   TextEditingController controllerRua = TextEditingController();
   TextEditingController controllerNumeroCasa = TextEditingController();
   TextEditingController controllerBairro = TextEditingController();
   TextEditingController controllerSenha = TextEditingController();
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email é obrigatório';
+    }
+    // Regex para validar o formato do email
+    final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!regex.hasMatch(value)) {
+      return 'Formato de email inválido';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,12 +87,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     label: 'Email',
                     isPassword: false,
                     controller: controllerEmail,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email é obrigatório';
-                      }
-                      return null;
-                    },
+                    validator: _validateEmail,
                   ),
                   const SizedBox(height: 10),
                   FieldForm(
@@ -89,6 +97,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'CPF é obrigatório';
+                      }
+                      if (value.length != 14) {
+                        return 'CPF deve ter 11 dígitos';
                       }
                       return null;
                     },
