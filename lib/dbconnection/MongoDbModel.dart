@@ -68,6 +68,7 @@ class MedicoMongoDbModel {
   String bairro;
   String senha;
   String crm;
+  String especialidade; // Adicionando o campo especialidade
 
   MedicoMongoDbModel({
     required this.id,
@@ -80,6 +81,7 @@ class MedicoMongoDbModel {
     required this.bairro,
     required this.senha,
     required this.crm,
+    required this.especialidade,
   });
 
   factory MedicoMongoDbModel.fromJson(Map<String, dynamic> json) =>
@@ -94,6 +96,8 @@ class MedicoMongoDbModel {
         bairro: json["Bairro"],
         senha: json["Senha"],
         crm: json["CRM"],
+        especialidade: json[
+            "Especialidade"], // Adicionando a leitura do campo especialidade
       );
 
   Map<String, dynamic> toJson() => {
@@ -107,5 +111,7 @@ class MedicoMongoDbModel {
         "Bairro": bairro,
         "Senha": senha,
         "CRM": crm,
+        "Especialidade":
+            especialidade, // Adicionando o campo especialidade ao JSON
       };
 }

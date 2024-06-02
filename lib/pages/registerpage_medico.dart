@@ -22,11 +22,12 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
   TextEditingController controllerSobrenome = TextEditingController();
   TextEditingController controllerEmail = TextEditingController();
   var controllerCPF = MaskedTextController(mask: '000.000.000-00');
+  var controllerCRM = MaskedTextController(mask: '00000-AA');
   TextEditingController controllerRua = TextEditingController();
   TextEditingController controllerNumeroCasa = TextEditingController();
   TextEditingController controllerBairro = TextEditingController();
   TextEditingController controllerSenha = TextEditingController();
-  TextEditingController controllerCRM = TextEditingController();
+  TextEditingController controllerEspecialidade = TextEditingController();
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
@@ -67,6 +68,25 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'CRM é obrigatório';
+                      }
+                      // Converter os últimos dois caracteres para maiúsculo
+                      String crmUpperCase = value.toUpperCase();
+                      // Verificar se o CRM está no formato correto '12345-XX'
+                      final regex = RegExp(r'^\d{5}-[A-Z]{2}$');
+                      if (!regex.hasMatch(crmUpperCase)) {
+                        return 'CRM deve estar no formato 12345-XX';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  FieldForm(
+                    label: 'Especialidade',
+                    isPassword: false,
+                    controller: controllerEspecialidade,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Especialidade é obrigatória';
                       }
                       return null;
                     },
@@ -231,6 +251,7 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
       bairro: controllerBairro.text,
       senha: controllerSenha.text,
       crm: controllerCRM.text,
+      especialidade: controllerEspecialidade.text,
     );
     await Provider.of<MedicoProvider>(context, listen: false)
         .saveMedicoToDatabase(medico);
