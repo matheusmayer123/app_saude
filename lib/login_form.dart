@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 import 'package:app_saude/providers/user_provider.dart';
 import 'package:app_saude/pages/home_page.dart';
@@ -13,7 +14,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  TextEditingController controllerCPF = TextEditingController();
+  var controllerCPF = MaskedTextController(mask: '000.000.000-00');
   TextEditingController controllerPassword = TextEditingController();
 
   void _login(UserProvider userProvider) async {
@@ -51,6 +52,7 @@ class _LoginFormState extends State<LoginForm> {
             SizedBox(height: 10),
             TextField(
               controller: controllerCPF,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(labelText: 'CPF'),
             ),
             SizedBox(height: 10),
