@@ -1,29 +1,17 @@
 import 'dart:developer';
 
-import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/dbconnection/constant.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 class MongoDataBase {
-  static var db, collection_Name;
   static connect() async {
     var db = await Db.create(MONGO_URL);
     await db.open();
-    collection_Name = db.collection(COLLECTION_NAME);
-    await db.open();
-  }
+    inspect(db);
 
-  static Future<String> insert(MongoDbModel data) async {
-    try {
-      var result = await collection_Name.insertOne(data.toJson());
-      if (result.isSuccess) {
-        return "enviado dadossss";
-      } else {
-        return "nao foi enviadooo";
-      }
-    } catch (e) {
-      print(e.toString());
-      return e.toString();
-    }
+    var status = db.serverStatus();
+    print(status);
+    var collection = db.collection(COLLECTION_NAME);
+    print(await collection.find().toList());
   }
 }
