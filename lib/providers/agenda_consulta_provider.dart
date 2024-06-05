@@ -114,4 +114,22 @@ class AgendaConsultaProvider with ChangeNotifier {
       return [];
     }
   }
+
+  Future<bool> verificarHorarioOcupado(DateTime data, TimeOfDay time) async {
+    try {
+      await _ensureInitialized();
+      var consultas = await _collection!.find({
+        'data': data,
+        'horario': _formatTimeOfDay(time),
+      }).toList();
+      return consultas.isNotEmpty; // Retorna true se o horário estiver ocupado
+    } catch (e) {
+      print('Erro ao verificar horário ocupado: $e');
+      return false; // Por padrão, consideramos que o horário está disponível
+    }
+  }
+
+  String _formatTimeOfDay(TimeOfDay time) {
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+  }
 }

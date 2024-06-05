@@ -1,7 +1,7 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
+import 'package:app_saude/providers/medico_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app_saude/providers/medico_provider.dart';
 import 'package:app_saude/providers/agenda_consulta_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -49,15 +49,26 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
 
   bool _isLoading = false;
 
-  void _updateAvailableTimes(DateTime selectedDate) {
+  void _updateAvailableTimes(DateTime selectedDate) async {
     _availableTimes.clear();
     for (int hour = 8; hour < 20; hour++) {
-      _availableTimes.add(TimeOfDay(hour: hour, minute: 0));
+      var time = TimeOfDay(hour: hour, minute: 0);
+      bool isTimeOccupied =
+          await Provider.of<AgendaConsultaProvider>(context, listen: false)
+              .verificarHorarioOcupado(selectedDate, time);
+      if (!isTimeOccupied) {
+        _availableTimes.add(time);
+      }
     }
+    setState(() {});
   }
 
   String _formatTimeOfDay(TimeOfDay time) {
     return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+  }
+
+  bool _isTimeAvailable(TimeOfDay time) {
+    return _availableTimes.contains(time);
   }
 
   @override
@@ -187,7 +198,12 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
               items: _availableTimes.map((TimeOfDay time) {
                 return DropdownMenuItem<TimeOfDay>(
                   value: time,
-                  child: Text(_formatTimeOfDay(time)),
+                  child: Text(
+                    _formatTimeOfDay(time),
+                    style: TextStyle(
+                      color: _isTimeAvailable(time) ? Colors.green : Colors.red,
+                    ),
+                  ),
                 );
               }).toList(),
               hint: const Text('Escolha um horário'),
@@ -230,6 +246,21 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                         });
                       } else {
                         // Mostrar uma mensagem de erro ou aviso
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: Text('Erro ao agendar consulta'),
+                            content: Text(
+                              'Por favor, preencha todos os campos antes de confirmar o agendamento.',
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: Text('OK'),
+                              ),
+                            ],
+                          ),
+                        );
                       }
                     },
                     child: const Text('Confirmar Agendamento'),
