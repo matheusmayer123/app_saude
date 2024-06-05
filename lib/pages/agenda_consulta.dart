@@ -46,17 +46,21 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
   TimeOfDay? _selectedTime;
 
   List<TimeOfDay> _availableTimes = [];
+  List<TimeOfDay> _occupiedTimes = [];
 
   bool _isLoading = false;
 
   void _updateAvailableTimes(DateTime selectedDate) async {
     _availableTimes.clear();
+    _occupiedTimes.clear();
     for (int hour = 8; hour < 20; hour++) {
       var time = TimeOfDay(hour: hour, minute: 0);
       bool isTimeOccupied =
           await Provider.of<AgendaConsultaProvider>(context, listen: false)
               .verificarHorarioOcupado(selectedDate, time);
-      if (!isTimeOccupied) {
+      if (isTimeOccupied) {
+        _occupiedTimes.add(time);
+      } else {
         _availableTimes.add(time);
       }
     }
@@ -65,10 +69,6 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
 
   String _formatTimeOfDay(TimeOfDay time) {
     return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
-  }
-
-  bool _isTimeAvailable(TimeOfDay time) {
-    return _availableTimes.contains(time);
   }
 
   @override
@@ -195,17 +195,30 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
             const SizedBox(height: 20),
             DropdownButtonFormField<TimeOfDay>(
               value: _selectedTime,
-              items: _availableTimes.map((TimeOfDay time) {
-                return DropdownMenuItem<TimeOfDay>(
-                  value: time,
-                  child: Text(
-                    _formatTimeOfDay(time),
-                    style: TextStyle(
-                      color: _isTimeAvailable(time) ? Colors.green : Colors.red,
+              items: [
+                ..._availableTimes.map((TimeOfDay time) {
+                  return DropdownMenuItem<TimeOfDay>(
+                    value: time,
+                    child: Text(
+                      _formatTimeOfDay(time),
+                      style: TextStyle(
+                        color: Colors.green,
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }),
+                ..._occupiedTimes.map((TimeOfDay time) {
+                  return DropdownMenuItem<TimeOfDay>(
+                    value: time,
+                    child: Text(
+                      _formatTimeOfDay(time),
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                  );
+                }),
+              ],
               hint: const Text('Escolha um horário'),
               onChanged: (TimeOfDay? newValue) {
                 setState(() {
