@@ -6,7 +6,7 @@ MongoDbModel mongoDbModelFromJson(String str) =>
 
 String mongoDbModelToJson(MongoDbModel data) => json.encode(data.toJson());
 
-//pacientes
+//Pacientes
 class MongoDbModel {
   ObjectId id;
   String nome;
@@ -58,7 +58,7 @@ class MongoDbModel {
 //Medicos
 
 class MedicoMongoDbModel {
-  String id; // Alteração do tipo para String
+  ObjectId id;
   String nome;
   String sobrenome;
   String email;
@@ -68,7 +68,7 @@ class MedicoMongoDbModel {
   String bairro;
   String senha;
   String crm;
-  String especialidade;
+  String especialidade; // Adicionando o campo especialidade
 
   MedicoMongoDbModel({
     required this.id,
@@ -84,21 +84,21 @@ class MedicoMongoDbModel {
     required this.especialidade,
   });
 
-  factory MedicoMongoDbModel.fromJson(Map<String, dynamic> json) {
-    return MedicoMongoDbModel(
-      id: json["_id"].toString(), // Alteração para String
-      nome: json["Nome"],
-      sobrenome: json["Sobrenome"],
-      email: json["Email"],
-      cpf: json["Cpf"],
-      rua: json["Rua"],
-      numeroCasa: json["NumeroCasa"],
-      bairro: json["Bairro"],
-      senha: json["Senha"],
-      crm: json["CRM"],
-      especialidade: json["Especialidade"],
-    );
-  }
+  factory MedicoMongoDbModel.fromJson(Map<String, dynamic> json) =>
+      MedicoMongoDbModel(
+        id: json["_id"] is ObjectId ? json["_id"] : ObjectId.parse(json["_id"]),
+        nome: json["Nome"],
+        sobrenome: json["Sobrenome"],
+        email: json["Email"],
+        cpf: json["Cpf"],
+        rua: json["Rua"],
+        numeroCasa: json["NumeroCasa"],
+        bairro: json["Bairro"],
+        senha: json["Senha"],
+        crm: json["CRM"],
+        especialidade: json[
+            "Especialidade"], // Adicionando a leitura do campo especialidade
+      );
 
   Map<String, dynamic> toJson() => {
         "_id": id,
@@ -111,6 +111,7 @@ class MedicoMongoDbModel {
         "Bairro": bairro,
         "Senha": senha,
         "CRM": crm,
-        "Especialidade": especialidade,
+        "Especialidade":
+            especialidade, // Adicionando o campo especialidade ao JSON
       };
 }
