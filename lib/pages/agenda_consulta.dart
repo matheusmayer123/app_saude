@@ -222,7 +222,8 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                         };
                         await Provider.of<AgendaConsultaProvider>(context,
                                 listen: false)
-                            .saveAgendaConsultaToDatabase(newAppointment);
+                            .saveAgendaConsultaToDatabase(
+                                newAppointment, context);
 
                         setState(() {
                           _isLoading = false;

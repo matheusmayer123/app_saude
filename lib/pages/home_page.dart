@@ -48,7 +48,9 @@ class _HomePageState extends State<HomePage> {
                 buildGridItem(
                   icon: CupertinoIcons.calendar_badge_plus,
                   label: 'Agendar Consulta',
-                  page: AgendaConsultaPage(),
+                  page: AgendaConsultaPage(
+                      /* userName: nomeDoUsuario, */
+                      ),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.qrcode_viewfinder,

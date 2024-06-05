@@ -1,5 +1,7 @@
 import 'package:app_saude/pages/agenda_consulta.dart';
+import 'package:app_saude/pages/csat_page.dart';
 import 'package:app_saude/pages/home_page.dart';
+import 'package:app_saude/pages/loadingpage.dart';
 import 'package:app_saude/pages/loginpage.dart';
 import 'package:app_saude/pages/registerpage.dart';
 import 'package:app_saude/providers/user_provider.dart';

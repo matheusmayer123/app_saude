@@ -241,7 +241,7 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
   Future<void> _insertData(BuildContext context) async {
     var id = M.ObjectId();
     final medico = MedicoMongoDbModel(
-      id: id,
+      id: '',
       nome: controllerNome.text,
       sobrenome: controllerSobrenome.text,
       email: controllerEmail.text,
