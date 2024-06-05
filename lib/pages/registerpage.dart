@@ -242,7 +242,8 @@ class _RegisterPageState extends State<RegisterPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-          builder: (context) => LoginPage()), // Importe a tela de login
+          builder: (context) =>
+              ConfirmarEmailContaNova()), // Importe a tela de login
     );
   }
 }
