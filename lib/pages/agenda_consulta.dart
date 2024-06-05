@@ -1,4 +1,5 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
+import 'package:app_saude/pages/home_page.dart';
 import 'package:app_saude/providers/medico_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -227,26 +228,56 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                           _selectedFormaPagamento != null &&
                           _selectedDate != null &&
                           _selectedTime != null) {
-                        setState(() {
-                          _isLoading = true;
-                        });
+                        // Verificar se o horário selecionado está disponível
+                        bool isTimeAvailable =
+                            !_occupiedTimes.contains(_selectedTime);
 
-                        final newAppointment = {
-                          'especialidade': _selectedEspecialidade,
-                          'localizacao': _selectedLocalizacao,
-                          'medico': _selectedMedico,
-                          'forma_pagamento': _selectedFormaPagamento,
-                          'data': _selectedDate,
-                          'horario': _selectedTime?.format(context),
-                        };
-                        await Provider.of<AgendaConsultaProvider>(context,
-                                listen: false)
-                            .saveAgendaConsultaToDatabase(
-                                newAppointment, context);
+                        if (isTimeAvailable) {
+                          setState(() {
+                            _isLoading = true;
+                          });
 
-                        setState(() {
-                          _isLoading = false;
-                        });
+                          final newAppointment = {
+                            'especialidade': _selectedEspecialidade,
+                            'localizacao': _selectedLocalizacao,
+                            'medico': _selectedMedico,
+                            'forma_pagamento': _selectedFormaPagamento,
+                            'data': _selectedDate,
+                            'horario': _selectedTime?.format(context),
+                          };
+                          await Provider.of<AgendaConsultaProvider>(context,
+                                  listen: false)
+                              .saveAgendaConsultaToDatabase(
+                                  newAppointment, context);
+
+                          setState(() {
+                            _isLoading = false;
+                          });
+
+                          // Navegar de volta para a HomePage após confirmar o agendamento
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
+                        } else {
+                          // Mostrar mensagem de horário indisponível
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text('Horário Indisponível'),
+                              content: Text(
+                                'O horário selecionado não está disponível. Por favor, escolha outro horário.',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
                       } else {
                         // Mostrar uma mensagem de erro ou aviso
                         showDialog(
