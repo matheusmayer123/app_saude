@@ -5,7 +5,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 
 class UserProvider extends ChangeNotifier {
   List<MongoDbModel> _users = [];
-  String? _cpfDigitado; // Adicionando a propriedade cpfDigitado
+  String? _cpfDigitado;
 
   List<MongoDbModel> get users => _users;
 
@@ -16,6 +16,11 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> saveUserToDatabase(MongoDbModel user) async {
+    // Verificar se o CPF já existe na lista de usuários
+    if (_users.any((existingUser) => existingUser.cpf == user.cpf)) {
+      throw Exception('CPF já cadastrado');
+    }
+
     await MongoDataBase.insertUser(user);
     _users.add(user);
     notifyListeners();
@@ -40,15 +45,12 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<String> authenticateUser(String cpf, String password) async {
-    // Verificar se a lista de usuários está vazia e carregar do banco de dados se necessário
     if (_users.isEmpty) {
       await loadUsersFromDatabase();
     }
 
-    // Armazenar o CPF digitado
     _cpfDigitado = cpf;
 
-    // Consultar o banco de dados para buscar o usuário com o CPF fornecido
     var user = _users.firstWhere(
       (user) => user.cpf == cpf,
       orElse: () => MongoDbModel(
@@ -60,7 +62,7 @@ class UserProvider extends ChangeNotifier {
         rua: '',
         numeroCasa: '',
         bairro: '',
-        senha: '', // Valores padrão para o usuário
+        senha: '',
       ),
     );
 
@@ -70,9 +72,9 @@ class UserProvider extends ChangeNotifier {
     print('Senha do usuário no banco de dados: ${user.senha}');
 
     if (user.cpf.isNotEmpty && user.senha == password) {
-      return 'Autenticação bem-sucedida'; // Autenticação bem-sucedida
+      return 'Autenticação bem-sucedida';
     } else {
-      return 'CPF ou senha incorretos'; // Autenticação falhou
+      return 'CPF ou senha incorretos';
     }
   }
 }
