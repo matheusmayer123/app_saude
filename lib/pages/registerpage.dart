@@ -1,3 +1,4 @@
+import 'package:app_saude/pages/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:collection/collection.dart'; // Importe este pacote para usar firstWhereOrNull
@@ -179,7 +180,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                              const Color.fromRGBO(62, 124, 120, 1.0),
+                              const Color.fromRGBO(
+                                62,
+                                124,
+                                120,
+                                120,
+                              ),
                             ),
                           ),
                           child: const Text(
@@ -230,6 +236,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Usuário adicionado com sucesso")),
+    );
+
+    // Navegar para a tela de login após o cadastro bem-sucedido
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => LoginPage()), // Importe a tela de login
     );
   }
 }
