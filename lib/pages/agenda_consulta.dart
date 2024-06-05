@@ -60,9 +60,8 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
               .verificarHorarioOcupado(selectedDate, time);
       if (isTimeOccupied) {
         _occupiedTimes.add(time);
-      } else {
-        _availableTimes.add(time);
       }
+      _availableTimes.add(time);
     }
     setState(() {});
   }
@@ -202,18 +201,9 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                     child: Text(
                       _formatTimeOfDay(time),
                       style: TextStyle(
-                        color: Colors.green,
-                      ),
-                    ),
-                  );
-                }),
-                ..._occupiedTimes.map((TimeOfDay time) {
-                  return DropdownMenuItem<TimeOfDay>(
-                    value: time,
-                    child: Text(
-                      _formatTimeOfDay(time),
-                      style: TextStyle(
-                        color: Colors.red,
+                        color: _occupiedTimes.contains(time)
+                            ? Colors.red
+                            : Colors.green,
                       ),
                     ),
                   );
