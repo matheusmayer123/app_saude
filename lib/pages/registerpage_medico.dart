@@ -216,7 +216,7 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
                   controller: controllerRua,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Rua é obrigatório';
+                      return 'Rua é obrigatória';
                     }
                     return null;
                   },
@@ -272,13 +272,16 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      await _insertData(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ConfirmarEmailContaNova(),
-                        ),
-                      );
+                      final success = await _insertData(context);
+                      if (success) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const ConfirmarEmailContaNova(),
+                          ),
+                        );
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -297,7 +300,7 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
     );
   }
 
-  Future<void> _insertData(BuildContext context) async {
+  Future<bool> _insertData(BuildContext context) async {
     var id = ObjectId();
     final medico = MedicoMongoDbModel(
       id: id,
@@ -315,13 +318,23 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
     final medicoProvider = Provider.of<MedicoProvider>(context, listen: false);
 
     // Verificar se o CPF já existe
-    final existingMedico =
+    final existingMedicoCPF =
         medicoProvider.medicos.firstWhereOrNull((m) => m.cpf == medico.cpf);
-    if (existingMedico != null) {
+    if (existingMedicoCPF != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("CPF já cadastrado")),
       );
-      return;
+      return false;
+    }
+
+    // Verificar se o CRM já existe
+    final existingMedicoCRM =
+        medicoProvider.medicos.firstWhereOrNull((m) => m.crm == medico.crm);
+    if (existingMedicoCRM != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("CRM já cadastrado")),
+      );
+      return false;
     }
 
     // Se não existe, inserir o novo médico
@@ -330,6 +343,7 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Médico adicionado com sucesso")),
     );
+    return true;
   }
 
   String _generateCRM(String crmPrefix) {
