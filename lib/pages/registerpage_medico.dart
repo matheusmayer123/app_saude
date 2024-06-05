@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 import 'package:mongo_dart/mongo_dart.dart' show ObjectId;
+import 'package:collection/collection.dart';
 
 import '../field_form.dart';
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
@@ -311,8 +312,20 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
       crm: controllerCRM.text,
       especialidade: controllerEspecialidade.text,
     );
-    await Provider.of<MedicoProvider>(context, listen: false)
-        .saveMedicoToDatabase(medico);
+    final medicoProvider = Provider.of<MedicoProvider>(context, listen: false);
+
+    // Verificar se o CPF já existe
+    final existingMedico =
+        medicoProvider.medicos.firstWhereOrNull((m) => m.cpf == medico.cpf);
+    if (existingMedico != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("CPF já cadastrado")),
+      );
+      return;
+    }
+
+    // Se não existe, inserir o novo médico
+    await medicoProvider.saveMedicoToDatabase(medico);
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Médico adicionado com sucesso")),
