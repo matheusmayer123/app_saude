@@ -1,4 +1,5 @@
 import 'package:app_saude/pages/agenda_consulta.dart';
+import 'package:app_saude/pages/avaliacoes_page.dart';
 import 'package:app_saude/pages/lista_consultas_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -156,12 +157,12 @@ class _HomePageState extends State<HomePage> {
             MaterialPageRoute(builder: (context) => ListaConsulta()),
           );
           break;
-        // case 2:
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(builder: (context) => ContaPage()),
-        //   );
-        //   break;
+        case 2:
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AvaliacoesPage()),
+          );
+          break;
       }
     });
   }

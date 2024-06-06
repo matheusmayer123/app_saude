@@ -64,9 +64,37 @@ class _PesquisaSatisfacaoState extends State<PesquisaSatisfacao> {
                 provider.saveSatisfacaoToDatabase(review);
                 print('Avaliação salva: $review');
 
-                // Exemplo: Fechar a página após o envio
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                // Exibir o pop-up 1 segundo após o envio
+                Future.delayed(Duration(milliseconds: 300), () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Sucesso'),
+                        content: Text('A pesquisa foi enviada com sucesso!'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                                (Route<dynamic> route) => false,
+                              );
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                });
+
+                // Navegar para a HomePage após o envio
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
               },
               child: const Text('Enviar Avaliação'),
             ),

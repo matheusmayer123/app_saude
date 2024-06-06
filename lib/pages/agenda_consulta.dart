@@ -1,4 +1,5 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
+import 'package:app_saude/pages/csat_page.dart';
 import 'package:app_saude/pages/home_page.dart';
 import 'package:app_saude/providers/medico_provider.dart';
 import 'package:flutter/material.dart';
@@ -228,23 +229,20 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                           _selectedFormaPagamento != null &&
                           _selectedDate != null &&
                           _selectedTime != null) {
-                        // Verificar se o horário selecionado está disponível
-                        bool isTimeAvailable =
-                            !_occupiedTimes.contains(_selectedTime);
+                        setState(() {
+                          _isLoading = true;
+                        });
 
-                        if (isTimeAvailable) {
-                          setState(() {
-                            _isLoading = true;
-                          });
+                        final newAppointment = {
+                          'especialidade': _selectedEspecialidade,
+                          'localizacao': _selectedLocalizacao,
+                          'medico': _selectedMedico,
+                          'forma_pagamento': _selectedFormaPagamento,
+                          'data': _selectedDate,
+                          'horario': _selectedTime?.format(context),
+                        };
 
-                          final newAppointment = {
-                            'especialidade': _selectedEspecialidade,
-                            'localizacao': _selectedLocalizacao,
-                            'medico': _selectedMedico,
-                            'forma_pagamento': _selectedFormaPagamento,
-                            'data': _selectedDate,
-                            'horario': _selectedTime?.format(context),
-                          };
+                        try {
                           await Provider.of<AgendaConsultaProvider>(context,
                                   listen: false)
                               .saveAgendaConsultaToDatabase(
@@ -254,47 +252,51 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                             _isLoading = false;
                           });
 
-                          // Navegar de volta para a HomePage após confirmar o agendamento
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(),
-                            ),
-                          );
-                        } else {
-                          // Mostrar mensagem de horário indisponível
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: Text('Horário Indisponível'),
-                              content: Text(
-                                'O horário selecionado não está disponível. Por favor, escolha outro horário.',
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text('OK'),
-                                ),
-                              ],
-                            ),
-                          );
+                          // Atrasar a exibição do pop-up em 2 segundos
+                          Future.delayed(Duration(seconds: 2), () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                      'O que está achando do nosso aplicativo?'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => HomePage()),
+                                          (Route<dynamic> route) => false,
+                                        );
+                                      },
+                                      child: Text('Voltar'),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PesquisaSatisfacao()),
+                                        );
+                                      },
+                                      child: Text('Responder'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          });
+                        } catch (e) {
+                          // Lidar com qualquer erro aqui
+                          setState(() {
+                            _isLoading = false;
+                          });
+                          print('Erro ao salvar agendamento: $e');
                         }
                       } else {
-                        // Mostrar uma mensagem de erro ou aviso
-                        showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Text('Erro ao agendar consulta'),
-                            content: Text(
-                              'Por favor, preencha todos os campos antes de confirmar o agendamento.',
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: Text('OK'),
-                              ),
-                            ],
-                          ),
-                        );
+                        print('Preencha todos os campos');
                       }
                     },
                     child: const Text('Confirmar Agendamento'),

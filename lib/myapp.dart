@@ -1,9 +1,6 @@
-import 'package:app_saude/pages/agenda_consulta.dart';
-import 'package:app_saude/pages/csat_page.dart';
-import 'package:app_saude/pages/home_page.dart';
-import 'package:app_saude/pages/loadingpage.dart';
+import 'package:app_saude/pages/avaliacoes_page.dart';
 import 'package:app_saude/pages/loginpage.dart';
-import 'package:app_saude/pages/registerpage.dart';
+
 import 'package:app_saude/providers/user_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -21,17 +18,17 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         locale: const Locale('pt', 'BR'),
-        localizationsDelegates: [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
-        supportedLocales: [const Locale('pt', 'BR')],
+        supportedLocales: const [Locale('pt', 'BR')],
         title: 'App Saúde',
         theme: ThemeData(
           primarySwatch: Colors.teal,
         ),
-        home: const LoginPage(),
+        home: LoginPage(),
       ),
     );
   }
