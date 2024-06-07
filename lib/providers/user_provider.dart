@@ -16,7 +16,7 @@ class NavigationService {
 
 class UserProvider extends ChangeNotifier {
   List<MongoDbModel> _users = [];
-  MongoDbModel? _loggedInUser; 
+  MongoDbModel? _loggedInUser;
   String? _cpfDigitado;
 
   MongoDbModel? get loggedInUser => _loggedInUser;
@@ -29,7 +29,6 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> saveUserToDatabase(MongoDbModel user) async {
-    
     if (_users.any((existingUser) => existingUser.cpf == user.cpf)) {
       throw Exception('CPF já cadastrado');
     }
@@ -65,7 +64,7 @@ class UserProvider extends ChangeNotifier {
     _cpfDigitado = cpf;
 
     var user = _users.firstWhere(
-      (user) => user.cpf == cpf,
+      (user) => user.cpf == cpf && user.senha == password,
       orElse: () => MongoDbModel(
         id: ObjectId(),
         nome: '',
@@ -83,12 +82,16 @@ class UserProvider extends ChangeNotifier {
     print('CPF do usuário no banco de dados: ${user.cpf}');
     print('Senha digitada: $password');
     print('Senha do usuário no banco de dados: ${user.senha}');
+
     if (cpf == '123' && password == '123') {
+      _loggedInUser = user; // Definir o usuário logado
       await NavigationService.navigateTo('/homePageIntern');
       return 'Redirecionando para a página de admin';
-    } else {
-      
+    } else if (user.cpf.isNotEmpty && user.senha == password) {
+      _loggedInUser = user; // Definir o usuário logado
       return 'Autenticação bem-sucedida';
+    } else {
+      return 'CPF ou senha incorretos';
     }
   }
 }
