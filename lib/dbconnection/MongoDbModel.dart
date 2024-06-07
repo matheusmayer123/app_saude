@@ -17,7 +17,6 @@ class MongoDbModel {
   String numeroCasa;
   String bairro;
   String senha;
-  String? imageUrl;
 
   MongoDbModel({
     required this.id,
@@ -29,34 +28,7 @@ class MongoDbModel {
     required this.numeroCasa,
     required this.bairro,
     required this.senha,
-    this.imageUrl,
   });
-
-  MongoDbModel copyWith({
-    ObjectId? id,
-    String? nome,
-    String? sobrenome,
-    String? email,
-    String? cpf,
-    String? rua,
-    String? numeroCasa,
-    String? bairro,
-    String? senha,
-    String? imageUrl,
-  }) {
-    return MongoDbModel(
-      id: id ?? this.id,
-      nome: nome ?? this.nome,
-      sobrenome: sobrenome ?? this.sobrenome,
-      email: email ?? this.email,
-      cpf: cpf ?? this.cpf,
-      rua: rua ?? this.rua,
-      numeroCasa: numeroCasa ?? this.numeroCasa,
-      bairro: bairro ?? this.bairro,
-      senha: senha ?? this.senha,
-      imageUrl: imageUrl ?? this.imageUrl,
-    );
-  }
 
   factory MongoDbModel.fromJson(Map<String, dynamic> json) => MongoDbModel(
         id: json["_id"] is ObjectId ? json["_id"] : ObjectId.parse(json["_id"]),
@@ -68,7 +40,6 @@ class MongoDbModel {
         numeroCasa: json["NumeroCasa"],
         bairro: json["Bairro"],
         senha: json["Senha"],
-        imageUrl: json["imageUrl"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,7 +52,6 @@ class MongoDbModel {
         "NumeroCasa": numeroCasa,
         "Bairro": bairro,
         "Senha": senha,
-        "imageUrl": imageUrl,
       };
 }
 

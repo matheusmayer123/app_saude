@@ -1,8 +1,8 @@
+import 'package:app_saude/pages/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/providers/user_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PerfilDrawer extends StatelessWidget {
   @override
@@ -40,7 +40,7 @@ class PerfilDrawer extends StatelessWidget {
                   'Informações do Usuário',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 15,
                   ),
                 ),
               ],
@@ -77,8 +77,22 @@ class PerfilDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.location_on),
+            title: Text('Rua: ${users.isNotEmpty ? users[0].rua : ''}'),
+            onTap: () {
+              // Implement action
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.home),
             title: Text(
-                'Logradouro: ${users.isNotEmpty ? users[0].rua : ''} ${users.isNotEmpty ? users[0].numeroCasa : ''} ${users.isNotEmpty ? users[0].bairro : ''}'),
+                'Número da Casa: ${users.isNotEmpty ? users[0].numeroCasa : ''}'),
+            onTap: () {
+              // Implement action
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.location_city),
+            title: Text('Bairro: ${users.isNotEmpty ? users[0].bairro : ''}'),
             onTap: () {
               // Implement action
             },
@@ -87,7 +101,8 @@ class PerfilDrawer extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () {
-              // Implement logout action
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginPage()));
             },
           ),
           ListTile(
@@ -103,7 +118,6 @@ class PerfilDrawer extends StatelessWidget {
   }
 
   void _showImageLinkDialog(BuildContext context) {
-    TextEditingController _imageLinkController = TextEditingController();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -121,9 +135,8 @@ class PerfilDrawer extends StatelessWidget {
             ),
             TextButton(
               child: Text("Salvar"),
-              onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                prefs.setString('user_image_link', _imageLinkController.text);
+              onPressed: () {
+                // Aqui você pode salvar o link da imagem
                 Navigator.of(context).pop();
               },
             ),
