@@ -1,5 +1,5 @@
 import 'package:app_saude/providers/agenda_consulta_provider.dart';
-import 'package:app_saude/providers/agenda_exame.dart';
+import 'package:app_saude/providers/agenda_exame_provider.dart';
 import 'package:app_saude/providers/satisfacao_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

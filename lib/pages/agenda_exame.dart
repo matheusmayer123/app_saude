@@ -1,7 +1,7 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/pages/csat_page.dart';
 import 'package:app_saude/pages/home_page.dart';
-import 'package:app_saude/providers/agenda_exame.dart';
+import 'package:app_saude/providers/agenda_exame_provider.dart';
 import 'package:app_saude/providers/medico_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
