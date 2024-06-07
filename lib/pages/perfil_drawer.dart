@@ -7,8 +7,8 @@ import 'package:app_saude/providers/user_provider.dart';
 class PerfilDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final List<MongoDbModel> users = userProvider.users;
+    final userProvider = Provider.of<UserProvider>(context);
+    final MongoDbModel? loggedInUser = userProvider.loggedInUser;
 
     return Drawer(
       child: ListView(
@@ -22,9 +22,7 @@ class PerfilDrawer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 GestureDetector(
-                  onTap: () {
-                    _showImageLinkDialog(context);
-                  },
+                  onTap: () {},
                   child: CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.white,
@@ -46,57 +44,40 @@ class PerfilDrawer extends StatelessWidget {
               ],
             ),
           ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Nome: ${users.isNotEmpty ? users[0].nome : ''}'),
-            onTap: () {
-              // Implement action
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
-                'Sobrenome: ${users.isNotEmpty ? users[0].sobrenome : ''}'),
-            onTap: () {
-              // Implement action
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.email),
-            title: Text('Email: ${users.isNotEmpty ? users[0].email : ''}'),
-            onTap: () {
-              // Implement action
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.credit_card),
-            title: Text('CPF: ${users.isNotEmpty ? users[0].cpf : ''}'),
-            onTap: () {
-              // Implement action
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.location_on),
-            title: Text('Rua: ${users.isNotEmpty ? users[0].rua : ''}'),
-            onTap: () {
-              // Implement action
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text(
-                'Número da Casa: ${users.isNotEmpty ? users[0].numeroCasa : ''}'),
-            onTap: () {
-              // Implement action
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.location_city),
-            title: Text('Bairro: ${users.isNotEmpty ? users[0].bairro : ''}'),
-            onTap: () {
-              // Implement action
-            },
-          ),
+          if (loggedInUser != null) ...[
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Nome: ${loggedInUser.nome}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Sobrenome: ${loggedInUser.sobrenome}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text('Email: ${loggedInUser.email}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.credit_card),
+              title: Text('CPF: ${loggedInUser.cpf}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.location_on),
+              title: Text('Rua: ${loggedInUser.rua}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Número da Casa: ${loggedInUser.numeroCasa}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.location_city),
+              title: Text('Bairro: ${loggedInUser.bairro}'),
+            ),
+          ] else ...[
+            ListTile(
+              title: Text('Nenhum usuário logado'),
+            ),
+          ],
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
@@ -109,40 +90,11 @@ class PerfilDrawer extends StatelessWidget {
             leading: Icon(Icons.arrow_back),
             title: Text('Voltar'),
             onTap: () {
-              Navigator.pop(context); // Fecha o Drawer
+              Navigator.pop(context);
             },
           ),
         ],
       ),
-    );
-  }
-
-  void _showImageLinkDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Inserir Link da Foto de Perfil"),
-          content: TextField(
-            decoration: InputDecoration(hintText: "Insira o link aqui"),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text("Cancelar"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text("Salvar"),
-              onPressed: () {
-                // Aqui você pode salvar o link da imagem
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }

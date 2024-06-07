@@ -1,9 +1,8 @@
-import 'package:app_saude/pages/editar_exame_page.dart';
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 
 import 'package:provider/provider.dart';
-import 'package:app_saude/providers/agenda_exame_provider.dart'; // Ajuste o caminho conforme necessário
+import 'package:app_saude/providers/agenda_exame_provider.dart'; 
 
 class ListaExame extends StatefulWidget {
   const ListaExame({Key? key}) : super(key: key);
@@ -31,14 +30,14 @@ class _ListaExameState extends State<ListaExame> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('Nenhum exame encontrado'));
           } else {
-            // Exibir os dados obtidos do provider
+            
             final exames = snapshot.data!;
             return ListView.builder(
               itemCount: exames.length,
               itemBuilder: (context, index) {
                 final exameData = exames[index];
 
-                // Logging para depuração
+                
                 print('Exame Data: $exameData');
 
                 return ListTile(
@@ -50,29 +49,10 @@ class _ListaExameState extends State<ListaExame> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditExameScreen(
-                                exameData: exameData,
-                                onSave: (updatedExame) async {
-                                  await provider
-                                      .updateAgendaExame(updatedExame);
-                                  setState(
-                                      () {}); // Atualizar a lista após a edição
-                                },
-                              ),
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.edit),
-                      ),
-                      IconButton(
                         onPressed: () async {
                           final id = exameData['_id'] as mongo.ObjectId;
                           await provider.deleteAgendaExame(id);
-                          setState(() {}); // Atualizar a lista após a exclusão
+                          setState(() {}); 
                         },
                         icon: Icon(Icons.delete),
                       ),

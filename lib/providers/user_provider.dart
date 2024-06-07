@@ -16,8 +16,10 @@ class NavigationService {
 
 class UserProvider extends ChangeNotifier {
   List<MongoDbModel> _users = [];
+  MongoDbModel? _loggedInUser; 
   String? _cpfDigitado;
 
+  MongoDbModel? get loggedInUser => _loggedInUser;
   List<MongoDbModel> get users => _users;
 
   Future<void> loadUsersFromDatabase() async {
@@ -27,7 +29,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> saveUserToDatabase(MongoDbModel user) async {
-    // Verificar se o CPF já existe na lista de usuários
+    
     if (_users.any((existingUser) => existingUser.cpf == user.cpf)) {
       throw Exception('CPF já cadastrado');
     }
@@ -85,7 +87,7 @@ class UserProvider extends ChangeNotifier {
       await NavigationService.navigateTo('/homePageIntern');
       return 'Redirecionando para a página de admin';
     } else {
-      // Se a autenticação for bem-sucedida com um usuário normal, faça outra coisa, como exibir uma mensagem ou atualizar o estado do widget.
+      
       return 'Autenticação bem-sucedida';
     }
   }

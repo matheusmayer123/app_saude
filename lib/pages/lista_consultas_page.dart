@@ -1,4 +1,3 @@
-import 'package:app_saude/pages/edit_consul_page.dart';
 import 'package:app_saude/providers/agenda_consulta_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
@@ -31,7 +30,7 @@ class _ListaConsultaState extends State<ListaConsulta> {
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('Nenhuma consulta encontrada'));
           } else {
-            // Exibir os dados obtidos do provider
+            
             final consultas = snapshot.data!;
             return ListView.builder(
               itemCount: consultas.length,
@@ -46,31 +45,10 @@ class _ListaConsultaState extends State<ListaConsulta> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        onPressed: () {
-                          // Navegar para a tela de edição passando os dados da consulta
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditConsultaScreen(
-                                  consultaData: consultaData,
-                                  onSave: (updatedConsulta) async {
-                                    final id = updatedConsulta['_id']
-                                        as String; // Assumindo que '_id' é uma String
-                                    await provider.updateAgendaConsulta(
-                                        id, updatedConsulta);
-                                    setState(() {});
-                                  } // Atualizar a lista após a edição
-                                  ),
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.edit),
-                      ),
-                      IconButton(
                         onPressed: () async {
                           final id = consultaData['_id'] as mongo.ObjectId;
                           await provider.deleteAgendaConsulta(id);
-                          setState(() {}); // Atualizar a lista após a exclusão
+                          setState(() {}); 
                         },
                         icon: Icon(Icons.delete),
                       ),

@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
         navigatorKey: NavigationService.navigatorKey,
         routes: {
           '/homePageIntern': (context) => HomePageIntern(),
-          // Defina outras rotas aqui
         },
         locale: const Locale('pt', 'BR'),
         localizationsDelegates: const [

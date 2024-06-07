@@ -30,7 +30,7 @@ class AgendaConsultaProvider with ChangeNotifier {
         await _initialize();
       }
 
-      // Verifique o estado da conexão
+      
       if (_db!.state != mongo.State.OPEN) {
         await _db!.open();
       }
@@ -44,7 +44,7 @@ class AgendaConsultaProvider with ChangeNotifier {
     try {
       await _ensureInitialized();
 
-      // Extrair data, médico e horário da nova consulta
+      
       DateTime novaData;
       String novoHorario;
       String novoMedico;
@@ -57,14 +57,14 @@ class AgendaConsultaProvider with ChangeNotifier {
         throw Exception('Formato incorreto de dados: $e');
       }
 
-      // Verificar se já existe uma consulta para a mesma data, médico e horário
+      
       var consultasExistentes = await _collection!.find({
         'data': novaData,
         'medico': novoMedico,
         'horario': novoHorario,
       }).toList();
 
-      // Se houver consultas existentes, lançar uma exceção
+      
       if (consultasExistentes.isNotEmpty) {
         print(
             'Já existe uma consulta agendada para o mesmo médico, data e horário.');
@@ -73,7 +73,7 @@ class AgendaConsultaProvider with ChangeNotifier {
       }
 
       print('Salvando nova consulta...');
-      // Se não houver consultas existentes, inserir a nova consulta no banco de dados
+      
       await _collection!.insert({
         ...agendaConsulta,
         'data': novaData,
@@ -81,7 +81,7 @@ class AgendaConsultaProvider with ChangeNotifier {
       });
       print('Consulta salva com sucesso.');
 
-      // Mostrar Snackbar de sucesso
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Consulta salva com sucesso.'),
@@ -93,7 +93,7 @@ class AgendaConsultaProvider with ChangeNotifier {
     } catch (e) {
       print('Erro ao salvar consulta: $e');
 
-      // Mostrar Snackbar de erro
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro ao salvar consulta: $e'),
@@ -123,10 +123,10 @@ class AgendaConsultaProvider with ChangeNotifier {
         'data': data,
         'horario': _formatTimeOfDay(time),
       }).toList();
-      return consultas.isNotEmpty; // Retorna true se o horário estiver ocupado
+      return consultas.isNotEmpty; 
     } catch (e) {
       print('Erro ao verificar horário ocupado: $e');
-      return false; // Por padrão, consideramos que o horário está disponível
+      return false; 
     }
   }
 
@@ -135,12 +135,12 @@ class AgendaConsultaProvider with ChangeNotifier {
     try {
       await _ensureInitialized();
 
-      // Atualizar a consulta no banco de dados
+      
       await _collection!.update(
         mongo.where.eq('_id', mongo.ObjectId.parse(id)),
         {
           '\$set': updatedConsulta
-        }, // Usar operador $set para atualizar apenas os campos fornecidos
+        }, 
       );
 
       print('Consulta atualizada com sucesso.');
@@ -160,16 +160,7 @@ class AgendaConsultaProvider with ChangeNotifier {
       print('Erro ao deletar exame: $e');
     }
 
-    /* Future<void> deleteAgendaExame(mongo.ObjectId id) async {
-    try {
-      await _ensureInitialized();
-      await _collection!.remove(where.id(id));
-      notifyListeners();
-      print('Exame deletado com sucesso.');
-    } catch (e) {
-      print('Erro ao deletar exame: $e');
-    }
-  } */
+   
   }
 
   String _formatTimeOfDay(TimeOfDay time) {

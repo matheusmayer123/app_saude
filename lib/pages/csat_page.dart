@@ -1,7 +1,7 @@
 import 'package:app_saude/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app_saude/providers/satisfacao_provider.dart'; // Importe o SatisfacaoProvider
+import 'package:app_saude/providers/satisfacao_provider.dart'; 
 
 class PesquisaSatisfacao extends StatefulWidget {
   const PesquisaSatisfacao({Key? key}) : super(key: key);
@@ -54,7 +54,7 @@ class _PesquisaSatisfacaoState extends State<PesquisaSatisfacao> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Use Provider.of para acessar o SatisfacaoProvider
+                
                 final provider =
                     Provider.of<SatisfacaoProvider>(context, listen: false);
                 final review = {
@@ -64,7 +64,7 @@ class _PesquisaSatisfacaoState extends State<PesquisaSatisfacao> {
                 provider.saveSatisfacaoToDatabase(review);
                 print('Avaliação salva: $review');
 
-                // Exibir o pop-up 1 segundo após o envio
+                
                 Future.delayed(Duration(milliseconds: 300), () {
                   showDialog(
                     context: context,
@@ -90,7 +90,7 @@ class _PesquisaSatisfacaoState extends State<PesquisaSatisfacao> {
                   );
                 });
 
-                // Navegar para a HomePage após o envio
+                
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),

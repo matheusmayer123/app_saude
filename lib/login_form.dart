@@ -21,12 +21,12 @@ class _LoginFormState extends State<LoginForm> {
     String cpf = controllerCPF.text;
     String password = controllerPassword.text;
 
-    // Autenticação
+    
     String result = await userProvider.authenticateUser(cpf, password);
 
     
     if (result == 'Autenticação bem-sucedida') {
-      // Navegue para a página inicial após o login
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
@@ -68,7 +68,7 @@ class _LoginFormState extends State<LoginForm> {
               children: [
                 TextButton(
                   onPressed: () {
-                    // Implemente a recuperação de senha se necessário
+                    
                   },
                   style: TextButton.styleFrom(
                     minimumSize: Size.zero,
@@ -109,7 +109,7 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(height: 5),
                   TextButton(
                     onPressed: () {
-                      // Navegue para a página de registro de usuário
+                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => RegisterPage()),

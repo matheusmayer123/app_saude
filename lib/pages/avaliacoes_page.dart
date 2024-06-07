@@ -54,7 +54,7 @@ class _AvaliacoesPageState extends State<AvaliacoesPage> {
               final date = avaliacao['date'] as DateTime?;
               final dateString = date != null
                   ? '${date.day}/${date.month}/${date.year}'
-                  : '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'; // Usar a data atual se a data da avaliação for nula
+                  : '${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}'; 
 
               return Card(
                 margin: const EdgeInsets.all(8.0),
@@ -70,7 +70,7 @@ class _AvaliacoesPageState extends State<AvaliacoesPage> {
                     style: const TextStyle(color: Colors.grey),
                   ),
                   onTap: () {
-                    // Ação ao tocar na avaliação, por exemplo, exibir detalhes
+                    
                   },
                 ),
               );

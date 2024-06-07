@@ -126,7 +126,7 @@ class _AgendaExamePageState extends State<AgendaExamePage> {
                     if (snapshot.connectionState == ConnectionState.waiting ||
                         !snapshot.hasData ||
                         snapshot.data!.isEmpty) {
-                      return const SizedBox(); // Widget vazio quando ainda está carregando ou não há dados
+                      return const SizedBox(); 
                     } else if (snapshot.hasError) {
                       return Text(
                           'Erro ao carregar médicos: ${snapshot.error}');
@@ -253,7 +253,7 @@ class _AgendaExamePageState extends State<AgendaExamePage> {
                             _isLoading = false;
                           });
 
-                          // Atrasar a exibição do pop-up em 2 segundos
+                          
                           Future.delayed(Duration(seconds: 2), () {
                             showDialog(
                               context: context,
@@ -290,7 +290,7 @@ class _AgendaExamePageState extends State<AgendaExamePage> {
                             );
                           });
                         } catch (e) {
-                          // Lidar com qualquer erro aqui
+                          
                           setState(() {
                             _isLoading = false;
                           });

@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                   icon: CupertinoIcons.calendar_badge_plus,
                   label: 'Agendar Consulta',
                   page: AgendaConsultaPage(
-                      /* userName: nomeDoUsuario, */
+                     
                       ),
                 ),
                 buildGridItem(
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      // Navega para outra página com base no índice selecionado
+      
       switch (_selectedIndex) {
         case 0:
           Navigator.push(

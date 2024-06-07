@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
-import 'package:collection/collection.dart'; // Importe a biblioteca collection
+import 'package:collection/collection.dart'; 
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/dbconnection/constant.dart';
 
 class MedicoProvider with ChangeNotifier {
-  mongo.Db? _db; // Usando o alias 'mongo' para evitar conflito de nomes
+  mongo.Db? _db; 
   mongo.DbCollection?
-      _collection; // Usando o alias 'mongo' para evitar conflito de nomes
+      _collection; 
   List<MedicoMongoDbModel> _medicos = [];
 
   List<MedicoMongoDbModel> get medicos => _medicos;
@@ -17,17 +17,17 @@ class MedicoProvider with ChangeNotifier {
   }
 
   Future<void> _initialize() async {
-    _db = await mongo.Db.create(MONGO_URL); // Usando o alias 'mongo'
+    _db = await mongo.Db.create(MONGO_URL); 
     await _db!.open();
 
-    // Adiciona um loop para aguardar até que o banco de dados esteja no estado 'State.OPEN'
+    
     while (_db!.state != mongo.State.OPEN) {
       await Future.delayed(Duration(
           milliseconds:
-              100)); // Aguarda 100 milissegundos antes de verificar novamente
+              100)); 
     }
 
-    _collection = _db!.collection(COLLECTION_DOCTORS); // Usando o alias 'mongo'
+    _collection = _db!.collection(COLLECTION_DOCTORS); 
     await _loadMedicos();
     notifyListeners();
   }

@@ -1,7 +1,7 @@
 import 'package:app_saude/pages/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:collection/collection.dart'; // Importe este pacote para usar firstWhereOrNull
+import 'package:collection/collection.dart'; 
 import 'package:mongo_dart/mongo_dart.dart' as M;
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/pages/created_account.dart';
@@ -33,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (value == null || value.isEmpty) {
       return 'Email é obrigatório';
     }
-    // Regex para validar o formato do email
+    
     final regex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
     if (!regex.hasMatch(value)) {
       return 'Formato de email inválido';
@@ -208,7 +208,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Future<void> _insertData(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-    // Verificar se o CPF já existe
+    
     final existingUser =
         userProvider.users.firstWhereOrNull((u) => u.cpf == controllerCPF.text);
     if (existingUser != null) {
@@ -218,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    // Se não existe, inserir o novo usuário
+    
     var id = M.ObjectId();
     final user = MongoDbModel(
       id: id,
@@ -238,12 +238,12 @@ class _RegisterPageState extends State<RegisterPage> {
       const SnackBar(content: Text("Usuário adicionado com sucesso")),
     );
 
-    // Navegar para a tela de login após o cadastro bem-sucedido
+    
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
           builder: (context) =>
-              ConfirmarEmailContaNova()), // Importe a tela de login
+              ConfirmarEmailContaNova()), 
     );
   }
 }

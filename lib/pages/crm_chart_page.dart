@@ -37,11 +37,11 @@ class CrmChart extends StatelessWidget {
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(showTitles: true),
 
-                // Defina os títulos do eixo x aqui
+                
               ),
               leftTitles: AxisTitles(
                 sideTitles: SideTitles(showTitles: true),
-                // Defina os títulos do eixo y aqui
+                
               ),
             ),
           ),

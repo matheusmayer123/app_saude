@@ -32,7 +32,7 @@ class AgendaExameProvider with ChangeNotifier {
         await _initialize();
       }
 
-      // Verifique o estado da conexão
+      
       if (_db!.state != mongo.State.OPEN) {
         await _db!.open();
       }
@@ -47,7 +47,7 @@ class AgendaExameProvider with ChangeNotifier {
     try {
       await _ensureInitialized();
 
-      // Extrair data, médico e horário do novo exame
+      
       DateTime novaData;
       String novoHorario;
       String novoMedico;
@@ -60,14 +60,14 @@ class AgendaExameProvider with ChangeNotifier {
         throw Exception('Formato incorreto de dados: $e');
       }
 
-      // Verificar se já existe um exame para a mesma data, médico e horário
+      
       var examesExistentes = await _collection!.find({
         'data': novaData,
         'medico': novoMedico,
         'horario': novoHorario,
       }).toList();
 
-      // Se houver exames existentes, lançar uma exceção
+      
       if (examesExistentes.isNotEmpty) {
         print(
             'Já existe um exame agendado para o mesmo médico, data e horário.');
@@ -76,7 +76,7 @@ class AgendaExameProvider with ChangeNotifier {
       }
 
       print('Salvando novo exame...');
-      // Se não houver exames existentes, inserir o novo exame no banco de dados
+      
       await _collection!.insert({
         ...agendaExame,
         'data': novaData,
@@ -84,7 +84,7 @@ class AgendaExameProvider with ChangeNotifier {
       });
       print('Exame salvo com sucesso.');
 
-      // Mostrar Snackbar de sucesso
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Exame agendado com sucesso.'),
@@ -96,7 +96,7 @@ class AgendaExameProvider with ChangeNotifier {
     } catch (e) {
       print('Erro ao agendar exame: $e');
 
-      // Mostrar Snackbar de erro
+      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro ao agendar exame: $e'),
@@ -154,10 +154,10 @@ class AgendaExameProvider with ChangeNotifier {
         'data': data,
         'horario': _formatTimeOfDay(time),
       }).toList();
-      return exames.isNotEmpty; // Retorna true se o horário estiver ocupado
+      return exames.isNotEmpty; 
     } catch (e) {
       print('Erro ao verificar horário ocupado para exames: $e');
-      return false; // Por padrão, consideramos que o horário está disponível
+      return false; 
     }
   }
 

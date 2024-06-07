@@ -317,7 +317,7 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
     );
     final medicoProvider = Provider.of<MedicoProvider>(context, listen: false);
 
-    // Verificar se o CPF já existe
+    
     final existingMedicoCPF =
         medicoProvider.medicos.firstWhereOrNull((m) => m.cpf == medico.cpf);
     if (existingMedicoCPF != null) {
@@ -327,7 +327,7 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
       return false;
     }
 
-    // Verificar se o CRM já existe
+    
     final existingMedicoCRM =
         medicoProvider.medicos.firstWhereOrNull((m) => m.crm == medico.crm);
     if (existingMedicoCRM != null) {
@@ -337,7 +337,7 @@ class _RegisterPageMedicoState extends State<RegisterPageMedico> {
       return false;
     }
 
-    // Se não existe, inserir o novo médico
+    
     await medicoProvider.saveMedicoToDatabase(medico);
 
     ScaffoldMessenger.of(context).showSnackBar(
