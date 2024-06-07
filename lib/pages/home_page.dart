@@ -1,4 +1,5 @@
 import 'package:app_saude/pages/agenda_consulta.dart';
+import 'package:app_saude/pages/agenda_exame.dart';
 import 'package:app_saude/pages/avaliacoes_page.dart';
 import 'package:app_saude/pages/lista_consultas_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                 buildGridItem(
                   icon: CupertinoIcons.lab_flask,
                   label: 'Agendar Exames',
-                  page: AgendaConsultaPage(),
+                  page: AgendaExamePage(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.doc_on_clipboard,

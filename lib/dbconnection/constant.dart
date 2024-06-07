@@ -3,6 +3,7 @@ const MONGO_URL =
 const COLLECTION_USERS = "users";
 const COLLECTION_DOCTORS = "medicos";
 const COLLECTION_SCHEDULE = "agenda_consulta";
+const COLLECTION_SCHEDULE_EXAM = "agenda_exame";
 const COLLECTION_CSAT = "csat_lista";
 
 
