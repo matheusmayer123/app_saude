@@ -4,6 +4,7 @@ import 'package:app_saude/pages/avaliacoes_page.dart';
 import 'package:app_saude/pages/lista_consultas_page.dart';
 import 'package:app_saude/pages/lista_exame.dart';
 import 'package:app_saude/pages/lista_med_page.dart';
+import 'package:app_saude/pages/perfil_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -163,7 +164,7 @@ class _HomePageState extends State<HomePage> {
         case 2:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AvaliacoesPage()),
+            MaterialPageRoute(builder: (context) => PerfilDrawer()),
           );
           break;
       }

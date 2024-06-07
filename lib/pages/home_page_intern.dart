@@ -2,9 +2,11 @@ import 'package:app_saude/pages/agenda_consulta.dart';
 import 'package:app_saude/pages/agenda_exame.dart';
 import 'package:app_saude/pages/avaliacoes_page.dart';
 import 'package:app_saude/pages/crm_chart_page.dart';
+import 'package:app_saude/pages/csat_page.dart';
 import 'package:app_saude/pages/lista_consultas_page.dart';
 import 'package:app_saude/pages/lista_exame.dart';
 import 'package:app_saude/pages/lista_med_page.dart';
+import 'package:app_saude/pages/perfil_drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +65,11 @@ class _HomePageInternState extends State<HomePageIntern> {
                   page: CrmChart(),
                 ),
                 buildGridItem(
+                  icon: CupertinoIcons.square_favorites_alt_fill,
+                  label: 'Pesquisa de Satisfação',
+                  page: AvaliacoesPage(),
+                ),
+                buildGridItem(
                   icon: CupertinoIcons.lab_flask,
                   label: 'Agendar Exames',
                   page: AgendaExamePage(),
@@ -71,11 +78,6 @@ class _HomePageInternState extends State<HomePageIntern> {
                   icon: CupertinoIcons.doc_on_clipboard,
                   label: 'Lita De Médicos',
                   page: MedicoScreen(),
-                ),
-                buildGridItem(
-                  icon: CupertinoIcons.exclamationmark_bubble_fill,
-                  label: 'Urgência',
-                  page: AgendaConsultaPage(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.lab_flask_solid,
@@ -164,7 +166,7 @@ class _HomePageInternState extends State<HomePageIntern> {
         case 2:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AvaliacoesPage()),
+            MaterialPageRoute(builder: (context) => PerfilDrawer()),
           );
           break;
       }

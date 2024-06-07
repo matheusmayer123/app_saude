@@ -3,6 +3,7 @@ import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/dbconnection/mongodb.dart';
 import 'package:app_saude/pages/home_page_intern.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey =
@@ -73,6 +74,7 @@ class UserProvider extends ChangeNotifier {
         numeroCasa: '',
         bairro: '',
         senha: '',
+        imageUrl: '', // Adicionando o campo imageUrl
       ),
     );
 
@@ -87,5 +89,22 @@ class UserProvider extends ChangeNotifier {
       // Se a autenticação for bem-sucedida com um usuário normal, faça outra coisa, como exibir uma mensagem ou atualizar o estado do widget.
       return 'Autenticação bem-sucedida';
     }
+  }
+
+  Future<void> updateUserImageUrl(String imageUrl) async {
+    // Atualizar o usuário com o novo link de imagem
+    var index = _users.indexWhere((user) => user.cpf == _cpfDigitado);
+    if (index != -1) {
+      _users[index] = _users[index].copyWith(imageUrl: imageUrl);
+      notifyListeners();
+
+      // Salvar o usuário atualizado no SharedPreferences
+      await _saveUserToSharedPreferences(_users[index]);
+    }
+  }
+
+  Future<void> _saveUserToSharedPreferences(MongoDbModel user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_image_link', user.imageUrl ?? '');
   }
 }

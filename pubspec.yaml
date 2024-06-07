@@ -41,6 +41,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_masked_text2: ^0.9.1
+  shared_preferences: ^2.2.3
   
 dev_dependencies:
   flutter_test:
