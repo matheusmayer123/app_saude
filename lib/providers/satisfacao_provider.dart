@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 import 'package:app_saude/dbconnection/constant.dart';
+import 'package:flutter/material.dart';
+import 'package:mongo_dart/mongo_dart.dart' as mongo; // Usando o alias 'mongo'
 
 class SatisfacaoProvider with ChangeNotifier {
-  Db? _db;
-  DbCollection? _collection;
+  mongo.Db? _db; // Usando o alias 'mongo' para evitar conflito de nomes
+  mongo.DbCollection?
+      _collection; // Usando o alias 'mongo' para evitar conflito de nomes
   List<Map<String, dynamic>> _satisfacoes = [];
 
   List<Map<String, dynamic>> get satisfacoes => _satisfacoes;
@@ -14,9 +15,17 @@ class SatisfacaoProvider with ChangeNotifier {
   }
 
   Future<void> _initialize() async {
-    _db = await Db.create(MONGO_URL);
+    _db = await mongo.Db.create(MONGO_URL); // Usando o alias 'mongo'
     await _db!.open();
-    _collection = _db!.collection(COLLECTION_CSAT);
+
+    // Adiciona um loop para aguardar até que o banco de dados esteja no estado 'State.OPEN'
+    while (_db!.state != mongo.State.OPEN) {
+      await Future.delayed(Duration(
+          milliseconds:
+              100)); // Aguarda 100 milissegundos antes de verificar novamente
+    }
+
+    _collection = _db!.collection(COLLECTION_CSAT); // Usando o alias 'mongo'
     await _loadSatisfacoes();
     notifyListeners();
   }
