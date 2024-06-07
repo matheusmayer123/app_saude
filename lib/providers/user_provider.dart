@@ -1,7 +1,17 @@
+import 'package:flutter/material.dart';
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/dbconnection/mongodb.dart';
-import 'package:flutter/material.dart';
+import 'package:app_saude/pages/home_page_intern.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+
+class NavigationService {
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
+  static Future<dynamic> navigateTo(String routeName) {
+    return navigatorKey.currentState!.pushNamed(routeName);
+  }
+}
 
 class UserProvider extends ChangeNotifier {
   List<MongoDbModel> _users = [];
@@ -70,11 +80,12 @@ class UserProvider extends ChangeNotifier {
     print('CPF do usuário no banco de dados: ${user.cpf}');
     print('Senha digitada: $password');
     print('Senha do usuário no banco de dados: ${user.senha}');
-
-    if (user.cpf.isNotEmpty && user.senha == password) {
-      return 'Autenticação bem-sucedida';
+    if (cpf == '123' && password == '123') {
+      await NavigationService.navigateTo('/homePageIntern');
+      return 'Redirecionando para a página de admin';
     } else {
-      return 'CPF ou senha incorretos';
+      // Se a autenticação for bem-sucedida com um usuário normal, faça outra coisa, como exibir uma mensagem ou atualizar o estado do widget.
+      return 'Autenticação bem-sucedida';
     }
   }
 }

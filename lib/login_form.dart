@@ -24,6 +24,7 @@ class _LoginFormState extends State<LoginForm> {
     // Autenticação
     String result = await userProvider.authenticateUser(cpf, password);
 
+    
     if (result == 'Autenticação bem-sucedida') {
       // Navegue para a página inicial após o login
       Navigator.pushReplacement(
@@ -87,7 +88,7 @@ class _LoginFormState extends State<LoginForm> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    height: 80,
+                    height: 50,
                     width: 350,
                     child: TextButton(
                       onPressed: () => _login(userProvider),
@@ -105,7 +106,7 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 5),
                   TextButton(
                     onPressed: () {
                       // Navegue para a página de registro de usuário
@@ -121,7 +122,6 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // Navegue para a página de registro de médico
                       Navigator.push(
                         context,
                         MaterialPageRoute(

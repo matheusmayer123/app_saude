@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:app_saude/dbconnection/constant.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 
 class AgendaExameProvider with ChangeNotifier {
   mongo.Db? _db;
@@ -113,6 +114,36 @@ class AgendaExameProvider with ChangeNotifier {
     } catch (e) {
       print('Erro ao buscar exames agendados: $e');
       return [];
+    }
+  }
+
+  Future<void> updateAgendaExame(Map<String, dynamic> updatedExame) async {
+    try {
+      await _ensureInitialized();
+      await _collection!.updateOne(
+        mongo.where.id(updatedExame['_id']),
+        mongo.modify
+            .set('exame', updatedExame['exame'])
+            .set('medico', updatedExame['medico'])
+            .set('localizacao', updatedExame['localizacao'])
+            .set('data', updatedExame['data'])
+            .set('horario', updatedExame['horario']),
+      );
+      notifyListeners();
+      print('Exame atualizado com sucesso.');
+    } catch (e) {
+      print('Erro ao atualizar exame: $e');
+    }
+  }
+
+  Future<void> deleteAgendaExame(mongo.ObjectId id) async {
+    try {
+      await _ensureInitialized();
+      await _collection!.remove(where.id(id));
+      notifyListeners();
+      print('Exame deletado com sucesso.');
+    } catch (e) {
+      print('Erro ao deletar exame: $e');
     }
   }
 

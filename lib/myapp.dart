@@ -1,4 +1,5 @@
 import 'package:app_saude/pages/avaliacoes_page.dart';
+import 'package:app_saude/pages/home_page_intern.dart';
 import 'package:app_saude/pages/loginpage.dart';
 
 import 'package:app_saude/providers/user_provider.dart';
@@ -17,6 +18,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
+        navigatorKey: NavigationService.navigatorKey,
+        routes: {
+          '/homePageIntern': (context) => HomePageIntern(),
+          // Defina outras rotas aqui
+        },
         locale: const Locale('pt', 'BR'),
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,

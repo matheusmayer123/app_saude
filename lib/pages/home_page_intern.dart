@@ -1,20 +1,21 @@
 import 'package:app_saude/pages/agenda_consulta.dart';
 import 'package:app_saude/pages/agenda_exame.dart';
 import 'package:app_saude/pages/avaliacoes_page.dart';
+import 'package:app_saude/pages/crm_chart_page.dart';
 import 'package:app_saude/pages/lista_consultas_page.dart';
 import 'package:app_saude/pages/lista_exame.dart';
 import 'package:app_saude/pages/lista_med_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePageIntern extends StatefulWidget {
+  const HomePageIntern({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageIntern> createState() => _HomePageInternState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageInternState extends State<HomePageIntern> {
   int _selectedIndex = 0;
 
   @override
@@ -57,9 +58,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                 ),
                 buildGridItem(
-                  icon: CupertinoIcons.qrcode_viewfinder,
-                  label: 'Escanear Check-In',
-                  page: AgendaConsultaPage(),
+                  icon: CupertinoIcons.doc_text_viewfinder,
+                  label: 'CRM',
+                  page: CrmChart(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.lab_flask,
@@ -151,7 +152,7 @@ class _HomePageState extends State<HomePage> {
         case 0:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => HomePageIntern()),
           );
           break;
         case 1:

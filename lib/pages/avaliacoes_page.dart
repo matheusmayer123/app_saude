@@ -95,7 +95,9 @@ class _AvaliacoesPageState extends State<AvaliacoesPage> {
                 DropdownButtonFormField<String>(
                   value: selectedMode,
                   onChanged: (value) {
-                    selectedMode = value;
+                    setState(() {
+                      selectedMode = value;
+                    });
                   },
                   items: const [
                     DropdownMenuItem(
@@ -118,7 +120,9 @@ class _AvaliacoesPageState extends State<AvaliacoesPage> {
                 const SizedBox(height: 20),
                 TextField(
                   onChanged: (value) {
-                    pontuacao = value;
+                    setState(() {
+                      pontuacao = value;
+                    });
                   },
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -274,15 +278,18 @@ class _AvaliacoesPageState extends State<AvaliacoesPage> {
     switch (selectedMode) {
       case 'maior':
         return consultas
-            .where((consulta) => consulta['rating'] > pontuacaoDouble)
+            .where((consulta) =>
+                ((consulta['rating'] as num?) ?? 0) > pontuacaoDouble)
             .toList();
       case 'menor':
         return consultas
-            .where((consulta) => consulta['rating'] < pontuacaoDouble)
+            .where((consulta) =>
+                ((consulta['rating'] as num?) ?? 0) < pontuacaoDouble)
             .toList();
       case 'igual':
         return consultas
-            .where((consulta) => consulta['rating'] == pontuacaoDouble)
+            .where((consulta) =>
+                ((consulta['rating'] as num?) ?? 0) == pontuacaoDouble)
             .toList();
       default:
         return consultas;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:app_saude/dbconnection/constant.dart';
+import 'package:mongo_dart/mongo_dart.dart';
 
 class AgendaConsultaProvider with ChangeNotifier {
   mongo.Db? _db;
@@ -127,6 +128,48 @@ class AgendaConsultaProvider with ChangeNotifier {
       print('Erro ao verificar horário ocupado: $e');
       return false; // Por padrão, consideramos que o horário está disponível
     }
+  }
+
+  Future<void> updateAgendaConsulta(
+      String id, Map<String, dynamic> updatedConsulta) async {
+    try {
+      await _ensureInitialized();
+
+      // Atualizar a consulta no banco de dados
+      await _collection!.update(
+        mongo.where.eq('_id', mongo.ObjectId.parse(id)),
+        {
+          '\$set': updatedConsulta
+        }, // Usar operador $set para atualizar apenas os campos fornecidos
+      );
+
+      print('Consulta atualizada com sucesso.');
+      notifyListeners();
+    } catch (e) {
+      print('Erro ao atualizar consulta: $e');
+    }
+  }
+
+  Future<void> deleteAgendaConsulta(mongo.ObjectId id) async {
+    try {
+      await _ensureInitialized();
+      await _collection!.remove(where.id(id));
+      notifyListeners();
+      print('Exame deletado com sucesso.');
+    } catch (e) {
+      print('Erro ao deletar exame: $e');
+    }
+
+    /* Future<void> deleteAgendaExame(mongo.ObjectId id) async {
+    try {
+      await _ensureInitialized();
+      await _collection!.remove(where.id(id));
+      notifyListeners();
+      print('Exame deletado com sucesso.');
+    } catch (e) {
+      print('Erro ao deletar exame: $e');
+    }
+  } */
   }
 
   String _formatTimeOfDay(TimeOfDay time) {
