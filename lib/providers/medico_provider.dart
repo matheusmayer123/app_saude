@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
-import 'package:collection/collection.dart'; 
+import 'package:collection/collection.dart';
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/dbconnection/constant.dart';
 
 class MedicoProvider with ChangeNotifier {
-  mongo.Db? _db; 
-  mongo.DbCollection?
-      _collection; 
+  mongo.Db? _db;
+  mongo.DbCollection? _collection;
   List<MedicoMongoDbModel> _medicos = [];
 
   List<MedicoMongoDbModel> get medicos => _medicos;
@@ -17,17 +16,14 @@ class MedicoProvider with ChangeNotifier {
   }
 
   Future<void> _initialize() async {
-    _db = await mongo.Db.create(MONGO_URL); 
+    _db = await mongo.Db.create(MONGO_URL);
     await _db!.open();
 
-    
     while (_db!.state != mongo.State.OPEN) {
-      await Future.delayed(Duration(
-          milliseconds:
-              100)); 
+      await Future.delayed(Duration(milliseconds: 100));
     }
 
-    _collection = _db!.collection(COLLECTION_DOCTORS); 
+    _collection = _db!.collection(COLLECTION_DOCTORS);
     await _loadMedicos();
     notifyListeners();
   }
@@ -61,5 +57,21 @@ class MedicoProvider with ChangeNotifier {
 
   MedicoMongoDbModel? findMedicoByCPF(String cpf) {
     return medicos.firstWhereOrNull((m) => m.cpf == cpf);
+  }
+
+  Future<String> authenticateMedico(String cpf, String password) async {
+    if (_medicos.isEmpty) {
+      await _loadMedicos();
+    }
+
+    var medico = _medicos.firstWhereOrNull(
+      (medico) => medico.cpf == cpf && medico.senha == password,
+    );
+
+    if (medico != null) {
+      return 'Autenticação bem-sucedida';
+    } else {
+      return 'CPF ou senha incorretos';
+    }
   }
 }

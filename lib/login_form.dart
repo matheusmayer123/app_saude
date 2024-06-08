@@ -1,7 +1,9 @@
+import 'package:app_saude/pages/home_page_intern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 import 'package:app_saude/providers/user_provider.dart';
+import 'package:app_saude/providers/medico_provider.dart';
 import 'package:app_saude/pages/home_page.dart';
 import 'package:app_saude/pages/registerpage.dart';
 import 'package:app_saude/pages/registerpage_medico.dart';
@@ -17,33 +19,45 @@ class _LoginFormState extends State<LoginForm> {
   var controllerCPF = MaskedTextController(mask: '000.000.000-00');
   TextEditingController controllerPassword = TextEditingController();
 
-  void _login(UserProvider userProvider) async {
+  void _login(UserProvider userProvider, MedicoProvider medicoProvider) async {
     String cpf = controllerCPF.text;
     String password = controllerPassword.text;
 
-    
-    String result = await userProvider.authenticateUser(cpf, password);
+    // Tenta autenticar como médico
+    String resultMedico =
+        await medicoProvider.authenticateMedico(cpf, password);
 
-    
-    if (result == 'Autenticação bem-sucedida') {
-      
+    if (resultMedico == 'Autenticação bem-sucedida') {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(
+            builder: (context) => HomePageIntern()), // Página do médico
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(result),
-          duration: Duration(seconds: 3),
-        ),
-      );
+      // Se não for médico, tenta autenticar como usuário normal
+      String resultUser = await userProvider.authenticateUser(cpf, password);
+
+      if (resultUser == 'Autenticação bem-sucedida') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => HomePage()), // Página do usuário
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('CPF ou senha incorretos'),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    final medicoProvider = Provider.of<MedicoProvider>(context);
 
     return Center(
       child: Padding(
@@ -68,7 +82,7 @@ class _LoginFormState extends State<LoginForm> {
               children: [
                 TextButton(
                   onPressed: () {
-                    
+                    // Lógica para redefinir senha
                   },
                   style: TextButton.styleFrom(
                     minimumSize: Size.zero,
@@ -91,7 +105,7 @@ class _LoginFormState extends State<LoginForm> {
                     height: 50,
                     width: 350,
                     child: TextButton(
-                      onPressed: () => _login(userProvider),
+                      onPressed: () => _login(userProvider, medicoProvider),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(
                           Color.fromRGBO(62, 124, 120, 1.0),
@@ -109,7 +123,6 @@ class _LoginFormState extends State<LoginForm> {
                   const SizedBox(height: 5),
                   TextButton(
                     onPressed: () {
-                      
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => RegisterPage()),
