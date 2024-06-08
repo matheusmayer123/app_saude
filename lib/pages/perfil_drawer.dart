@@ -120,6 +120,8 @@ class PerfilDrawer extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
             onTap: () {
+              Provider.of<MedicoProvider>(context, listen: false)
+                  .clearLoggedInMedico();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LoginPage()));
             },
