@@ -8,8 +8,11 @@ class MedicoProvider with ChangeNotifier {
   mongo.Db? _db;
   mongo.DbCollection? _collection;
   List<MedicoMongoDbModel> _medicos = [];
+  MedicoMongoDbModel? _loggedInMedico;
 
   List<MedicoMongoDbModel> get medicos => _medicos;
+
+  MedicoMongoDbModel? get loggedInMedico => _loggedInMedico;
 
   MedicoProvider() {
     _initialize();
@@ -69,9 +72,15 @@ class MedicoProvider with ChangeNotifier {
     );
 
     if (medico != null) {
+      _loggedInMedico = medico; // Define o médico logado
       return 'Autenticação bem-sucedida';
     } else {
       return 'CPF ou senha incorretos';
     }
+  }
+
+  void clearLoggedInMedico() {
+    _loggedInMedico = null;
+    notifyListeners();
   }
 }

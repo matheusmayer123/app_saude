@@ -1,4 +1,5 @@
 import 'package:app_saude/pages/loginpage.dart';
+import 'package:app_saude/providers/medico_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
@@ -8,7 +9,9 @@ class PerfilDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    final MedicoProvider medicoProvider = Provider.of<MedicoProvider>(context);
     final MongoDbModel? loggedInUser = userProvider.loggedInUser;
+    final MedicoMongoDbModel? loggedInMedico = medicoProvider.loggedInMedico;
 
     return Drawer(
       child: ListView(
@@ -73,7 +76,42 @@ class PerfilDrawer extends StatelessWidget {
               leading: Icon(Icons.location_city),
               title: Text('Bairro: ${loggedInUser.bairro}'),
             ),
-          ] else ...[
+          ],
+          if (loggedInMedico != null) ...[
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Nome: ${loggedInMedico.nome}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Sobrenome: ${loggedInMedico.sobrenome}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text('Email: ${loggedInMedico.email}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.credit_card),
+              title: Text('CRM: ${loggedInMedico.crm}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.location_on),
+              title: Text('Rua: ${loggedInMedico.rua}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Número da Casa: ${loggedInMedico.numeroCasa}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.location_city),
+              title: Text('Bairro: ${loggedInMedico.bairro}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.business),
+              title: Text('Especialidade: ${loggedInMedico.especialidade}'),
+            ),
+          ],
+          if (loggedInUser == null && loggedInMedico == null) ...[
             ListTile(
               title: Text('Nenhum usuário logado'),
             ),
