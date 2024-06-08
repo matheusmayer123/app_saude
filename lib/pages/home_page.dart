@@ -5,6 +5,7 @@ import 'package:app_saude/pages/lista_consultas_page.dart';
 import 'package:app_saude/pages/lista_exame.dart';
 import 'package:app_saude/pages/lista_med_page.dart';
 import 'package:app_saude/pages/perfil_drawer.dart';
+import 'package:app_saude/pages/qr_code_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -53,14 +54,12 @@ class _HomePageState extends State<HomePage> {
                 buildGridItem(
                   icon: CupertinoIcons.calendar_badge_plus,
                   label: 'Agendar Consulta',
-                  page: AgendaConsultaPage(
-                     
-                      ),
+                  page: AgendaConsultaPage(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.qrcode_viewfinder,
                   label: 'Escanear Check-In',
-                  page: AgendaConsultaPage(),
+                  page: QRScanPage(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.lab_flask,
@@ -147,7 +146,7 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      
+
       switch (_selectedIndex) {
         case 0:
           Navigator.push(
