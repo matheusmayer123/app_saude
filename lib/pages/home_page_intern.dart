@@ -1,5 +1,7 @@
 import 'package:app_saude/pages/agenda_consulta.dart';
 import 'package:app_saude/pages/agenda_exame.dart';
+import 'package:app_saude/pages/avaliacoes_page.dart';
+import 'package:app_saude/pages/crm_chart_page.dart';
 import 'package:app_saude/pages/lista_consultas_page.dart';
 import 'package:app_saude/pages/lista_exame.dart';
 import 'package:app_saude/pages/lista_med_page.dart';
@@ -154,9 +156,14 @@ class _HomePageInternState extends State<HomePageIntern> {
                   page: AgendaConsultaPage(),
                 ),
                 buildGridItem(
-                  icon: CupertinoIcons.qrcode_viewfinder,
-                  label: 'Escanear Check-In',
-                  page: QRScanPage(),
+                  icon: CupertinoIcons.doc_text_viewfinder,
+                  label: 'CRM',
+                  page: CrmChart(),
+                ),
+                buildGridItem(
+                  icon: CupertinoIcons.square_favorites_alt_fill,
+                  label: 'Pesquisa de Satisfação',
+                  page: AvaliacoesPage(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.lab_flask,
@@ -167,11 +174,6 @@ class _HomePageInternState extends State<HomePageIntern> {
                   icon: CupertinoIcons.doc_on_clipboard,
                   label: 'Lista De Médicos',
                   page: MedicoScreen(),
-                ),
-                buildGridItem(
-                  icon: CupertinoIcons.exclamationmark_bubble_fill,
-                  label: 'Urgência',
-                  page: AgendaConsultaPage(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.lab_flask_solid,
