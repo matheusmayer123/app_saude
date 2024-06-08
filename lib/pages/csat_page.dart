@@ -1,7 +1,7 @@
 import 'package:app_saude/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:app_saude/providers/satisfacao_provider.dart'; // Importe o SatisfacaoProvider
+import 'package:app_saude/providers/satisfacao_provider.dart'; 
 
 class PesquisaSatisfacao extends StatefulWidget {
   const PesquisaSatisfacao({Key? key}) : super(key: key);
@@ -54,7 +54,7 @@ class _PesquisaSatisfacaoState extends State<PesquisaSatisfacao> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Use Provider.of para acessar o SatisfacaoProvider
+                
                 final provider =
                     Provider.of<SatisfacaoProvider>(context, listen: false);
                 final review = {
@@ -64,9 +64,37 @@ class _PesquisaSatisfacaoState extends State<PesquisaSatisfacao> {
                 provider.saveSatisfacaoToDatabase(review);
                 print('Avaliação salva: $review');
 
-                // Exemplo: Fechar a página após o envio
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => HomePage()));
+                
+                Future.delayed(Duration(milliseconds: 300), () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Sucesso'),
+                        content: Text('A pesquisa foi enviada com sucesso!'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()),
+                                (Route<dynamic> route) => false,
+                              );
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                });
+
+                
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
               },
               child: const Text('Enviar Avaliação'),
             ),

@@ -2,25 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:app_saude/dbconnection/constant.dart';
 
-class AgendaConsultaProvider with ChangeNotifier {
+class AgendaExameProvider with ChangeNotifier {
   mongo.Db? _db;
   mongo.DbCollection? _collection;
-  List<Map<String, dynamic>>? consultas;
+  List<Map<String, dynamic>>? exames;
 
-  AgendaConsultaProvider() {
+  AgendaExameProvider() {
     _initialize();
   }
 
   Future<void> _initialize() async {
     try {
-      print('Inicializando conexão com o MongoDB...');
+      print(
+          'Inicializando conexão com o MongoDB para agendamento de exames...');
       _db = await mongo.Db.create(MONGO_URL);
       await _db!.open();
-      _collection = _db!.collection(COLLECTION_SCHEDULE);
-      print('Conexão com o MongoDB inicializada.');
+      _collection = _db!.collection(COLLECTION_SCHEDULE_EXAM);
+      print('Conexão com o MongoDB para agendamento de exames inicializada.');
       notifyListeners();
     } catch (e) {
-      print('Erro ao inicializar conexão com o MongoDB: $e');
+      print(
+          'Erro ao inicializar conexão com o MongoDB para agendamento de exames: $e');
     }
   }
 
@@ -33,12 +35,13 @@ class AgendaConsultaProvider with ChangeNotifier {
         await _db!.open();
       }
     } catch (e) {
-      print('Erro ao garantir inicialização do MongoDB: $e');
+      print(
+          'Erro ao garantir inicialização do MongoDB para agendamento de exames: $e');
     }
   }
 
-  Future<void> saveAgendaConsultaToDatabase(
-      Map<String, dynamic> agendaConsulta, BuildContext context) async {
+  Future<void> saveAgendaExameToDatabase(
+      Map<String, dynamic> agendaExame, BuildContext context) async {
     try {
       await _ensureInitialized();
 
@@ -47,64 +50,64 @@ class AgendaConsultaProvider with ChangeNotifier {
       String novoMedico;
 
       try {
-        novaData = agendaConsulta['data'];
-        novoHorario = agendaConsulta['horario'];
-        novoMedico = agendaConsulta['medico'];
+        novaData = agendaExame['data'];
+        novoHorario = agendaExame['horario'];
+        novoMedico = agendaExame['medico'];
       } catch (e) {
         throw Exception('Formato incorreto de dados: $e');
       }
 
-      var consultasExistentes = await _collection!.find({
+      var examesExistentes = await _collection!.find({
         'data': novaData,
         'medico': novoMedico,
         'horario': novoHorario,
       }).toList();
 
-      if (consultasExistentes.isNotEmpty) {
+      if (examesExistentes.isNotEmpty) {
         print(
-            'Já existe uma consulta agendada para o mesmo médico, data e horário.');
+            'Já existe um exame agendado para o mesmo médico, data e horário.');
         throw Exception(
-            'Já existe uma consulta agendada para o mesmo médico, data e horário.');
+            'Já existe um exame agendado para o mesmo médico, data e horário.');
       }
 
-      print('Salvando nova consulta...');
+      print('Salvando novo exame...');
       await _collection!.insert({
-        ...agendaConsulta,
+        ...agendaExame,
         'data': novaData,
         'horario': novoHorario,
       });
-      print('Consulta salva com sucesso.');
+      print('Exame salvo com sucesso.');
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Consulta salva com sucesso.'),
+          content: Text('Exame agendado com sucesso.'),
           backgroundColor: Colors.green,
         ),
       );
 
       notifyListeners();
     } catch (e) {
-      print('Erro ao salvar consulta: $e');
+      print('Erro ao agendar exame: $e');
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Erro ao salvar consulta: $e'),
+          content: Text('Erro ao agendar exame: $e'),
           backgroundColor: Colors.red,
         ),
       );
     }
   }
 
-  Future<List<Map<String, dynamic>>> getAllAgendaConsultas() async {
+  Future<List<Map<String, dynamic>>> getAllAgendaExames() async {
     try {
       await _ensureInitialized();
-      consultas = await _collection!.find().toList();
-      consultas?.forEach((consulta) =>
-          consulta['type'] = 'consulta'); // Define o tipo como 'consulta'
+      exames = await _collection!.find().toList();
+      exames?.forEach(
+          (exame) => exame['type'] = 'exame'); // Define o tipo como 'exame'
       notifyListeners();
-      return consultas ?? [];
+      return exames ?? [];
     } catch (e) {
-      print('Erro ao buscar consultas agendadas: $e');
+      print('Erro ao buscar exames agendados: $e');
       return [];
     }
   }
@@ -112,40 +115,40 @@ class AgendaConsultaProvider with ChangeNotifier {
   Future<bool> verificarHorarioOcupado(DateTime data, TimeOfDay time) async {
     try {
       await _ensureInitialized();
-      var consultas = await _collection!.find({
+      var exames = await _collection!.find({
         'data': data,
         'horario': _formatTimeOfDay(time),
       }).toList();
-      return consultas.isNotEmpty;
+      return exames.isNotEmpty;
     } catch (e) {
-      print('Erro ao verificar horário ocupado: $e');
+      print('Erro ao verificar horário ocupado para exames: $e');
       return false;
     }
   }
 
-  Future<void> updateAgendaConsulta(
-      String id, Map<String, dynamic> updatedConsulta) async {
+  Future<void> updateAgendaExame(
+      String id, Map<String, dynamic> updatedExame) async {
     try {
       await _ensureInitialized();
       await _collection!.update(
         mongo.where.eq('_id', mongo.ObjectId.parse(id)),
-        {'\$set': updatedConsulta},
+        {'\$set': updatedExame},
       );
-      print('Consulta atualizada com sucesso.');
+      print('Exame atualizado com sucesso.');
       notifyListeners();
     } catch (e) {
-      print('Erro ao atualizar consulta: $e');
+      print('Erro ao atualizar exame: $e');
     }
   }
 
-  Future<void> deleteAgendaConsulta(mongo.ObjectId id) async {
+  Future<void> deleteAgendaExame(mongo.ObjectId id) async {
     try {
       await _ensureInitialized();
       await _collection!.remove(mongo.where.id(id));
       notifyListeners();
-      print('Consulta deletada com sucesso.');
+      print('Exame deletado com sucesso.');
     } catch (e) {
-      print('Erro ao deletar consulta: $e');
+      print('Erro ao deletar exame: $e');
     }
   }
 

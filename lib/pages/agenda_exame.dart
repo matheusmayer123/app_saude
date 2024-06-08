@@ -1,35 +1,36 @@
 import 'package:app_saude/dbconnection/MongoDbModel.dart';
 import 'package:app_saude/pages/csat_page.dart';
 import 'package:app_saude/pages/home_page.dart';
+import 'package:app_saude/providers/agenda_exame_provider.dart';
 import 'package:app_saude/providers/medico_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:app_saude/providers/agenda_consulta_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-class AgendaConsultaPage extends StatefulWidget {
-  const AgendaConsultaPage({Key? key}) : super(key: key);
+class AgendaExamePage extends StatefulWidget {
+  const AgendaExamePage({Key? key}) : super(key: key);
 
   @override
-  State<AgendaConsultaPage> createState() => _AgendaConsultaPageState();
+  State<AgendaExamePage> createState() => _AgendaExamePageState();
 }
 
-class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
+class _AgendaExamePageState extends State<AgendaExamePage> {
   String? _selectedEspecialidade;
   String? _selectedLocalizacao;
   String? _selectedMedico;
   String? _selectedFormaPagamento;
 
   final List<String> especialidades = [
-    'Cardiologia',
-    'Dermatologia',
-    'Pediatria',
-    'Oftalmologia',
-    'Ortopedia',
-    'Neurologia',
-    'Ginecologia',
-    'Urologia',
-    'Oncologia',
+    'Raio-X',
+    'Ressonância Magnética',
+    'Tomografia Computadorizada',
+    'Exames de Sangue',
+    'Ultrassonografia',
+    'Eletrocardiograma',
+    'Endoscopia',
+    'Colonoscopia',
+    'Ecocardiograma',
   ];
 
   final List<String> localizacoes = [
@@ -58,7 +59,7 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
     for (int hour = 8; hour < 20; hour++) {
       var time = TimeOfDay(hour: hour, minute: 0);
       bool isTimeOccupied =
-          await Provider.of<AgendaConsultaProvider>(context, listen: false)
+          await Provider.of<AgendaExameProvider>(context, listen: false)
               .verificarHorarioOcupado(selectedDate, time);
       if (isTimeOccupied) {
         _occupiedTimes.add(time);
@@ -76,9 +77,9 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Agendar Consultas'),
+        title: const Text('Agendar Exames'),
         centerTitle: true,
-        backgroundColor: Colors.purple,
+        backgroundColor: Colors.blue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -93,7 +94,7 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                   child: Text(especialidade),
                 );
               }).toList(),
-              hint: const Text('Escolha uma especialidade'),
+              hint: const Text('Escolha um exame'),
               onChanged: (String? newValue) {
                 setState(() {
                   _selectedEspecialidade = newValue;
@@ -234,7 +235,7 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                         });
 
                         final newAppointment = {
-                          'especialidade': _selectedEspecialidade,
+                          'exame': _selectedEspecialidade,
                           'localizacao': _selectedLocalizacao,
                           'medico': _selectedMedico,
                           'forma_pagamento': _selectedFormaPagamento,
@@ -243,9 +244,9 @@ class _AgendaConsultaPageState extends State<AgendaConsultaPage> {
                         };
 
                         try {
-                          await Provider.of<AgendaConsultaProvider>(context,
+                          await Provider.of<AgendaExameProvider>(context,
                                   listen: false)
-                              .saveAgendaConsultaToDatabase(
+                              .saveAgendaExameToDatabase(
                                   newAppointment, context);
 
                           setState(() {

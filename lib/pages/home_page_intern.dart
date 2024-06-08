@@ -5,27 +5,27 @@ import 'package:app_saude/pages/lista_exame.dart';
 import 'package:app_saude/pages/lista_med_page.dart';
 import 'package:app_saude/pages/perfil_drawer.dart';
 import 'package:app_saude/pages/qr_code_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:app_saude/providers/agenda_consulta_provider.dart';
 import 'package:app_saude/providers/agenda_exame_provider.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Importante para formatação de data
-import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePageIntern extends StatefulWidget {
+  const HomePageIntern({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageIntern> createState() => _HomePageInternState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageInternState extends State<HomePageIntern> {
   int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    // Fetch data when the HomePage initializes
+    // Fetch data when the HomePageIntern initializes
     final consultaProvider =
         Provider.of<AgendaConsultaProvider>(context, listen: false);
     consultaProvider.getAllAgendaConsultas();
@@ -260,7 +260,7 @@ class _HomePageState extends State<HomePage> {
         case 0:
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => HomePageIntern()),
           );
           break;
         case 1:
