@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Container(
-              height: 180,
+              height: 200,
               padding: const EdgeInsets.symmetric(vertical: 10.0),
               child: Consumer2<AgendaConsultaProvider, AgendaExameProvider>(
                 builder: (context, consultaProvider, exameProvider, child) {
@@ -57,74 +57,88 @@ class _HomePageState extends State<HomePage> {
 
                   final allItems = [...consultas, ...exames];
 
-                  return ListView.builder(
+                  return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    itemCount: allItems.length,
-                    itemBuilder: (context, index) {
-                      final item = allItems[index];
-                      final String tipo = item['type'] ?? '';
+                    child: Row(
+                      children: allItems.map((item) {
+                        final String tipo = item['type'] ?? '';
 
-                      String titulo;
-                      Color corTitulo;
+                        String titulo;
+                        Color corTitulo;
 
-                      if (tipo == 'consulta') {
-                        titulo = 'Consulta';
-                        corTitulo = Colors.blue;
-                      } else {
-                        titulo = 'Exames';
-                        corTitulo = Colors.green;
-                      }
+                        if (tipo == 'consulta') {
+                          titulo = 'Consulta';
+                          corTitulo = Colors.blue;
+                        } else {
+                          titulo = 'Exame';
+                          corTitulo = Colors.green;
+                        }
 
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          elevation: 5,
-                          child: Container(
-                            width: 250, // Aumentado para 250 pixels
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  titulo,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: corTitulo,
-                                  ),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: GestureDetector(
+                            onHorizontalDragUpdate: (details) {
+                              if (details.delta.dx > 0) {
+                                // Swipe da direita para a esquerda
+                                // Lógica para rolar para a esquerda
+                                Scrollable.ensureVisible(context);
+                              } else if (details.delta.dx < 0) {
+                                // Swipe da esquerda para a direita
+                                // Lógica para rolar para a direita
+                                Scrollable.ensureVisible(context);
+                              }
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              elevation: 5,
+                              child: Container(
+                                width: 250, // Largura fixa para cada card
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      titulo,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: corTitulo,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    // Corrigido para usar diretamente DateTime
+                                    Text(
+                                      'Data: ${_formatDate(item['data'] as DateTime)}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    Text(
+                                      'Horário: ${item['horario']}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    Text(
+                                      'Médico: ${item['medico']}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  'Data: ${_formatDate(item['data'])}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                                Text(
-                                  'Horário: ${item['horario']}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                                Text(
-                                  'Médico: ${item['medico']}',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      }).toList(),
+                    ),
                   );
                 },
               ),
