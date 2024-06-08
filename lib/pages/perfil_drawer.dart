@@ -47,36 +47,6 @@ class PerfilDrawer extends StatelessWidget {
               ],
             ),
           ),
-          if (loggedInUser != null) ...[
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Nome: ${loggedInUser.nome}'),
-            ),
-            ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Sobrenome: ${loggedInUser.sobrenome}'),
-            ),
-            ListTile(
-              leading: Icon(Icons.email),
-              title: Text('Email: ${loggedInUser.email}'),
-            ),
-            ListTile(
-              leading: Icon(Icons.credit_card),
-              title: Text('CPF: ${loggedInUser.cpf}'),
-            ),
-            ListTile(
-              leading: Icon(Icons.location_on),
-              title: Text('Rua: ${loggedInUser.rua}'),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text('Número da Casa: ${loggedInUser.numeroCasa}'),
-            ),
-            ListTile(
-              leading: Icon(Icons.location_city),
-              title: Text('Bairro: ${loggedInUser.bairro}'),
-            ),
-          ],
           if (loggedInMedico != null) ...[
             ListTile(
               leading: Icon(Icons.person),
@@ -109,6 +79,36 @@ class PerfilDrawer extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.business),
               title: Text('Especialidade: ${loggedInMedico.especialidade}'),
+            ),
+          ],
+          if (loggedInUser != null && loggedInMedico == null) ...[
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Nome: ${loggedInUser.nome}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Sobrenome: ${loggedInUser.sobrenome}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.email),
+              title: Text('Email: ${loggedInUser.email}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.credit_card),
+              title: Text('CPF: ${loggedInUser.cpf}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.location_on),
+              title: Text('Rua: ${loggedInUser.rua}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Número da Casa: ${loggedInUser.numeroCasa}'),
+            ),
+            ListTile(
+              leading: Icon(Icons.location_city),
+              title: Text('Bairro: ${loggedInUser.bairro}'),
             ),
           ],
           if (loggedInUser == null && loggedInMedico == null) ...[
