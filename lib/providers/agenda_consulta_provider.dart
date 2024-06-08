@@ -61,8 +61,10 @@ class AgendaConsultaProvider with ChangeNotifier {
       }).toList();
 
       if (consultasExistentes.isNotEmpty) {
-        print('Já existe uma consulta agendada para o mesmo médico, data e horário.');
-        throw Exception('Já existe uma consulta agendada para o mesmo médico, data e horário.');
+        print(
+            'Já existe uma consulta agendada para o mesmo médico, data e horário.');
+        throw Exception(
+            'Já existe uma consulta agendada para o mesmo médico, data e horário.');
       }
 
       print('Salvando nova consulta...');
@@ -97,10 +99,12 @@ class AgendaConsultaProvider with ChangeNotifier {
     try {
       await _ensureInitialized();
       consultas = await _collection!.find().toList();
+      consultas?.forEach((consulta) =>
+          consulta['type'] = 'consulta'); // Define o tipo como 'consulta'
       notifyListeners();
       return consultas ?? [];
     } catch (e) {
-      print('Erro ao buscar consultas: $e');
+      print('Erro ao buscar consultas agendadas: $e');
       return [];
     }
   }
@@ -125,9 +129,7 @@ class AgendaConsultaProvider with ChangeNotifier {
       await _ensureInitialized();
       await _collection!.update(
         mongo.where.eq('_id', mongo.ObjectId.parse(id)),
-        {
-          '\$set': updatedConsulta
-        },
+        {'\$set': updatedConsulta},
       );
       print('Consulta atualizada com sucesso.');
       notifyListeners();

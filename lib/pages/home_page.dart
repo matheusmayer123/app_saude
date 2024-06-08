@@ -62,6 +62,19 @@ class _HomePageState extends State<HomePage> {
                     itemCount: allItems.length,
                     itemBuilder: (context, index) {
                       final item = allItems[index];
+                      final String tipo = item['type'] ?? '';
+
+                      String titulo;
+                      Color corTitulo;
+
+                      if (tipo == 'consulta') {
+                        titulo = 'Consulta';
+                        corTitulo = Colors.blue;
+                      } else {
+                        titulo = 'Exames';
+                        corTitulo = Colors.green;
+                      }
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: Card(
@@ -77,15 +90,11 @@ class _HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  item['type'] == 'consulta'
-                                      ? 'Consulta'
-                                      : 'Exame',
+                                  titulo,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: item['type'] == 'consulta'
-                                        ? Colors.blue
-                                        : Colors.green,
+                                    color: corTitulo,
                                   ),
                                 ),
                                 const SizedBox(height: 10),

@@ -102,6 +102,8 @@ class AgendaExameProvider with ChangeNotifier {
     try {
       await _ensureInitialized();
       exames = await _collection!.find().toList();
+      exames?.forEach(
+          (exame) => exame['type'] = 'exame'); // Define o tipo como 'exame'
       notifyListeners();
       return exames ?? [];
     } catch (e) {
