@@ -1,14 +1,16 @@
 import 'package:app_saude/pages/agenda_consulta.dart';
 import 'package:app_saude/pages/agenda_exame.dart';
-import 'package:app_saude/pages/avaliacoes_page.dart';
-import 'package:app_saude/pages/crm_chart_page.dart';
-import 'package:app_saude/pages/csat_page.dart';
 import 'package:app_saude/pages/lista_consultas_page.dart';
 import 'package:app_saude/pages/lista_exame.dart';
 import 'package:app_saude/pages/lista_med_page.dart';
 import 'package:app_saude/pages/perfil_drawer.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:app_saude/pages/qr_code_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
+import 'package:app_saude/providers/agenda_consulta_provider.dart';
+import 'package:app_saude/providers/agenda_exame_provider.dart';
+import 'package:intl/intl.dart'; // Importante para formatação de data
 
 class HomePageIntern extends StatefulWidget {
   const HomePageIntern({Key? key}) : super(key: key);
@@ -21,6 +23,19 @@ class _HomePageInternState extends State<HomePageIntern> {
   int _selectedIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // Fetch data when the HomePageIntern initializes
+    final consultaProvider =
+        Provider.of<AgendaConsultaProvider>(context, listen: false);
+    consultaProvider.getAllAgendaConsultas();
+
+    final exameProvider =
+        Provider.of<AgendaExameProvider>(context, listen: false);
+    exameProvider.getAllAgendaExames();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -29,45 +44,119 @@ class _HomePageInternState extends State<HomePageIntern> {
         foregroundColor: const Color.fromARGB(255, 255, 255, 255),
         backgroundColor: const Color.fromRGBO(62, 124, 120, 1.0),
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 125,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                buildCard(),
-                const SizedBox(width: 20),
-                buildCard(),
-                const SizedBox(width: 20),
-                buildCard(),
-                const SizedBox(width: 20),
-                buildCard(),
-                const SizedBox(width: 20),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 200,
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Consumer2<AgendaConsultaProvider, AgendaExameProvider>(
+                builder: (context, consultaProvider, exameProvider, child) {
+                  final consultas = consultaProvider.consultas ?? [];
+                  final exames = exameProvider.exames ?? [];
+
+                  final allItems = [...consultas, ...exames];
+
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: allItems.map((item) {
+                        final String tipo = item['type'] ?? '';
+
+                        String titulo;
+                        Color corTitulo;
+
+                        if (tipo == 'consulta') {
+                          titulo = 'Consulta';
+                          corTitulo = Colors.blue;
+                        } else {
+                          titulo = 'Exame';
+                          corTitulo = Colors.green;
+                        }
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: GestureDetector(
+                            onHorizontalDragUpdate: (details) {
+                              if (details.delta.dx > 0) {
+                                // Swipe da direita para a esquerda
+                                // Lógica para rolar para a esquerda
+                                Scrollable.ensureVisible(context);
+                              } else if (details.delta.dx < 0) {
+                                // Swipe da esquerda para a direita
+                                // Lógica para rolar para a direita
+                                Scrollable.ensureVisible(context);
+                              }
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              elevation: 5,
+                              child: Container(
+                                width: 250, // Largura fixa para cada card
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      titulo,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: corTitulo,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    // Corrigido para usar diretamente DateTime
+                                    Text(
+                                      'Data: ${_formatDate(item['data'] as DateTime)}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    Text(
+                                      'Horário: ${item['horario']}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                    Text(
+                                      'Médico: ${item['medico']}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey[600],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-          const SizedBox(height: 10),
-          Expanded(
-            child: GridView.count(
+            const SizedBox(height: 10),
+            GridView.count(
+              shrinkWrap: true,
               crossAxisCount: 2,
               children: <Widget>[
                 buildGridItem(
                   icon: CupertinoIcons.calendar_badge_plus,
                   label: 'Agendar Consulta',
-                  page: AgendaConsultaPage(
-                     
-                      ),
+                  page: AgendaConsultaPage(),
                 ),
                 buildGridItem(
-                  icon: CupertinoIcons.doc_text_viewfinder,
-                  label: 'CRM',
-                  page: CrmChart(),
-                ),
-                buildGridItem(
-                  icon: CupertinoIcons.square_favorites_alt_fill,
-                  label: 'Pesquisa de Satisfação',
-                  page: AvaliacoesPage(),
+                  icon: CupertinoIcons.qrcode_viewfinder,
+                  label: 'Escanear Check-In',
+                  page: QRScanPage(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.lab_flask,
@@ -76,8 +165,13 @@ class _HomePageInternState extends State<HomePageIntern> {
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.doc_on_clipboard,
-                  label: 'Lita De Médicos',
+                  label: 'Lista De Médicos',
                   page: MedicoScreen(),
+                ),
+                buildGridItem(
+                  icon: CupertinoIcons.exclamationmark_bubble_fill,
+                  label: 'Urgência',
+                  page: AgendaConsultaPage(),
                 ),
                 buildGridItem(
                   icon: CupertinoIcons.lab_flask_solid,
@@ -86,8 +180,8 @@ class _HomePageInternState extends State<HomePageIntern> {
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
@@ -111,12 +205,6 @@ class _HomePageInternState extends State<HomePageIntern> {
     );
   }
 
-  Widget buildCard() => Container(
-        width: 150,
-        height: 100,
-        color: Colors.red,
-      );
-
   Widget buildGridItem({
     required IconData icon,
     required String label,
@@ -130,7 +218,20 @@ class _HomePageInternState extends State<HomePageIntern> {
         );
       },
       child: Container(
+        margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -139,7 +240,12 @@ class _HomePageInternState extends State<HomePageIntern> {
               color: Colors.black,
               size: 50,
             ),
-            Text(label),
+            const SizedBox(height: 10),
+            Text(
+              label,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
+            ),
           ],
         ),
       ),
@@ -149,7 +255,7 @@ class _HomePageInternState extends State<HomePageIntern> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      
+
       switch (_selectedIndex) {
         case 0:
           Navigator.push(
@@ -171,5 +277,11 @@ class _HomePageInternState extends State<HomePageIntern> {
           break;
       }
     });
+  }
+
+  // Função para formatar a data
+  String _formatDate(DateTime date) {
+    final formatter = DateFormat('dd/MM/yyyy');
+    return formatter.format(date);
   }
 }
