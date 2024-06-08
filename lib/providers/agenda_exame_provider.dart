@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:app_saude/dbconnection/constant.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 
 class AgendaExameProvider with ChangeNotifier {
   mongo.Db? _db;
   mongo.DbCollection? _collection;
+  List<Map<String, dynamic>>? exames;
 
   AgendaExameProvider() {
     _initialize();
@@ -31,8 +31,6 @@ class AgendaExameProvider with ChangeNotifier {
       if (_db == null || _collection == null) {
         await _initialize();
       }
-
-      
       if (_db!.state != mongo.State.OPEN) {
         await _db!.open();
       }
@@ -47,7 +45,6 @@ class AgendaExameProvider with ChangeNotifier {
     try {
       await _ensureInitialized();
 
-      
       DateTime novaData;
       String novoHorario;
       String novoMedico;
@@ -60,14 +57,12 @@ class AgendaExameProvider with ChangeNotifier {
         throw Exception('Formato incorreto de dados: $e');
       }
 
-      
       var examesExistentes = await _collection!.find({
         'data': novaData,
         'medico': novoMedico,
         'horario': novoHorario,
       }).toList();
 
-      
       if (examesExistentes.isNotEmpty) {
         print(
             'Já existe um exame agendado para o mesmo médico, data e horário.');
@@ -76,7 +71,6 @@ class AgendaExameProvider with ChangeNotifier {
       }
 
       print('Salvando novo exame...');
-      
       await _collection!.insert({
         ...agendaExame,
         'data': novaData,
@@ -84,9 +78,8 @@ class AgendaExameProvider with ChangeNotifier {
       });
       print('Exame salvo com sucesso.');
 
-      
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Exame agendado com sucesso.'),
           backgroundColor: Colors.green,
         ),
@@ -96,7 +89,6 @@ class AgendaExameProvider with ChangeNotifier {
     } catch (e) {
       print('Erro ao agendar exame: $e');
 
-      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro ao agendar exame: $e'),
@@ -109,41 +101,12 @@ class AgendaExameProvider with ChangeNotifier {
   Future<List<Map<String, dynamic>>> getAllAgendaExames() async {
     try {
       await _ensureInitialized();
-      var agendaExames = await _collection!.find().toList();
-      return agendaExames.map((json) => json as Map<String, dynamic>).toList();
+      exames = await _collection!.find().toList();
+      notifyListeners();
+      return exames ?? [];
     } catch (e) {
       print('Erro ao buscar exames agendados: $e');
       return [];
-    }
-  }
-
-  Future<void> updateAgendaExame(Map<String, dynamic> updatedExame) async {
-    try {
-      await _ensureInitialized();
-      await _collection!.updateOne(
-        mongo.where.id(updatedExame['_id']),
-        mongo.modify
-            .set('exame', updatedExame['exame'])
-            .set('medico', updatedExame['medico'])
-            .set('localizacao', updatedExame['localizacao'])
-            .set('data', updatedExame['data'])
-            .set('horario', updatedExame['horario']),
-      );
-      notifyListeners();
-      print('Exame atualizado com sucesso.');
-    } catch (e) {
-      print('Erro ao atualizar exame: $e');
-    }
-  }
-
-  Future<void> deleteAgendaExame(mongo.ObjectId id) async {
-    try {
-      await _ensureInitialized();
-      await _collection!.remove(where.id(id));
-      notifyListeners();
-      print('Exame deletado com sucesso.');
-    } catch (e) {
-      print('Erro ao deletar exame: $e');
     }
   }
 
@@ -154,10 +117,36 @@ class AgendaExameProvider with ChangeNotifier {
         'data': data,
         'horario': _formatTimeOfDay(time),
       }).toList();
-      return exames.isNotEmpty; 
+      return exames.isNotEmpty;
     } catch (e) {
       print('Erro ao verificar horário ocupado para exames: $e');
-      return false; 
+      return false;
+    }
+  }
+
+  Future<void> updateAgendaExame(
+      String id, Map<String, dynamic> updatedExame) async {
+    try {
+      await _ensureInitialized();
+      await _collection!.update(
+        mongo.where.eq('_id', mongo.ObjectId.parse(id)),
+        {'\$set': updatedExame},
+      );
+      print('Exame atualizado com sucesso.');
+      notifyListeners();
+    } catch (e) {
+      print('Erro ao atualizar exame: $e');
+    }
+  }
+
+  Future<void> deleteAgendaExame(mongo.ObjectId id) async {
+    try {
+      await _ensureInitialized();
+      await _collection!.remove(mongo.where.id(id));
+      notifyListeners();
+      print('Exame deletado com sucesso.');
+    } catch (e) {
+      print('Erro ao deletar exame: $e');
     }
   }
 

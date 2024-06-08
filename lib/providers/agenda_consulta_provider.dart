@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mongo_dart/mongo_dart.dart' as mongo;
 import 'package:app_saude/dbconnection/constant.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 
 class AgendaConsultaProvider with ChangeNotifier {
   mongo.Db? _db;
   mongo.DbCollection? _collection;
+  List<Map<String, dynamic>>? consultas;
 
   AgendaConsultaProvider() {
     _initialize();
@@ -29,8 +29,6 @@ class AgendaConsultaProvider with ChangeNotifier {
       if (_db == null || _collection == null) {
         await _initialize();
       }
-
-      
       if (_db!.state != mongo.State.OPEN) {
         await _db!.open();
       }
@@ -44,7 +42,6 @@ class AgendaConsultaProvider with ChangeNotifier {
     try {
       await _ensureInitialized();
 
-      
       DateTime novaData;
       String novoHorario;
       String novoMedico;
@@ -57,23 +54,18 @@ class AgendaConsultaProvider with ChangeNotifier {
         throw Exception('Formato incorreto de dados: $e');
       }
 
-      
       var consultasExistentes = await _collection!.find({
         'data': novaData,
         'medico': novoMedico,
         'horario': novoHorario,
       }).toList();
 
-      
       if (consultasExistentes.isNotEmpty) {
-        print(
-            'Já existe uma consulta agendada para o mesmo médico, data e horário.');
-        throw Exception(
-            'Já existe uma consulta agendada para o mesmo médico, data e horário.');
+        print('Já existe uma consulta agendada para o mesmo médico, data e horário.');
+        throw Exception('Já existe uma consulta agendada para o mesmo médico, data e horário.');
       }
 
       print('Salvando nova consulta...');
-      
       await _collection!.insert({
         ...agendaConsulta,
         'data': novaData,
@@ -81,9 +73,8 @@ class AgendaConsultaProvider with ChangeNotifier {
       });
       print('Consulta salva com sucesso.');
 
-      
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Consulta salva com sucesso.'),
           backgroundColor: Colors.green,
         ),
@@ -93,7 +84,6 @@ class AgendaConsultaProvider with ChangeNotifier {
     } catch (e) {
       print('Erro ao salvar consulta: $e');
 
-      
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Erro ao salvar consulta: $e'),
@@ -106,10 +96,9 @@ class AgendaConsultaProvider with ChangeNotifier {
   Future<List<Map<String, dynamic>>> getAllAgendaConsultas() async {
     try {
       await _ensureInitialized();
-      var agendaConsultas = await _collection!.find().toList();
-      return agendaConsultas
-          .map((json) => json as Map<String, dynamic>)
-          .toList();
+      consultas = await _collection!.find().toList();
+      notifyListeners();
+      return consultas ?? [];
     } catch (e) {
       print('Erro ao buscar consultas: $e');
       return [];
@@ -123,10 +112,10 @@ class AgendaConsultaProvider with ChangeNotifier {
         'data': data,
         'horario': _formatTimeOfDay(time),
       }).toList();
-      return consultas.isNotEmpty; 
+      return consultas.isNotEmpty;
     } catch (e) {
       print('Erro ao verificar horário ocupado: $e');
-      return false; 
+      return false;
     }
   }
 
@@ -134,15 +123,12 @@ class AgendaConsultaProvider with ChangeNotifier {
       String id, Map<String, dynamic> updatedConsulta) async {
     try {
       await _ensureInitialized();
-
-      
       await _collection!.update(
         mongo.where.eq('_id', mongo.ObjectId.parse(id)),
         {
           '\$set': updatedConsulta
-        }, 
+        },
       );
-
       print('Consulta atualizada com sucesso.');
       notifyListeners();
     } catch (e) {
@@ -153,14 +139,12 @@ class AgendaConsultaProvider with ChangeNotifier {
   Future<void> deleteAgendaConsulta(mongo.ObjectId id) async {
     try {
       await _ensureInitialized();
-      await _collection!.remove(where.id(id));
+      await _collection!.remove(mongo.where.id(id));
       notifyListeners();
-      print('Exame deletado com sucesso.');
+      print('Consulta deletada com sucesso.');
     } catch (e) {
-      print('Erro ao deletar exame: $e');
+      print('Erro ao deletar consulta: $e');
     }
-
-   
   }
 
   String _formatTimeOfDay(TimeOfDay time) {
