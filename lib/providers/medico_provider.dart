@@ -79,6 +79,17 @@ class MedicoProvider with ChangeNotifier {
     }
   }
 
+  Future<void> updateMedico(
+      String cpf, MedicoMongoDbModel updatedMedico) async {
+    var index = _medicos.indexWhere((medico) => medico.cpf == cpf);
+    if (index != -1) {
+      await _collection!
+          .update(mongo.where.eq('cpf', cpf), updatedMedico.toJson());
+      await _loadMedicos();
+      notifyListeners();
+    }
+  }
+
   void clearLoggedInMedico() {
     _loggedInMedico = null;
     notifyListeners();

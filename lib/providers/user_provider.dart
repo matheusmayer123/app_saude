@@ -43,11 +43,13 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateUser(ObjectId id, MongoDbModel updatedUser) {
+  Future<void> updateUser(ObjectId id, MongoDbModel updatedUser) async {
     var index = _users.indexWhere((user) => user.id == id);
     if (index != -1) {
       _users[index] = updatedUser;
       notifyListeners();
+      await MongoDataBase.updateUser(
+          id, updatedUser.toJson()); // Atualiza no banco de dados
     }
   }
 
