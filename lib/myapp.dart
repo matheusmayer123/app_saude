@@ -34,6 +34,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.teal,
         ),
         home: LoginPage(),
+        debugShowCheckedModeBanner:
+            false, // Adiciona esta linha para remover a etiqueta de depuração
       ),
     );
   }

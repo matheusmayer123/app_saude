@@ -19,7 +19,7 @@ class PerfilDrawer extends StatelessWidget {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.greenAccent,
+              color: Colors.indigo,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

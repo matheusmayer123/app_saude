@@ -1,3 +1,4 @@
+import 'package:app_saude/pages/forgot_password.dart';
 import 'package:app_saude/pages/home_page_intern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -82,7 +83,10 @@ class _LoginFormState extends State<LoginForm> {
               children: [
                 TextButton(
                   onPressed: () {
-                    // Lógica para redefinir senha
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => EsqueceuSenha()),
+                    );
                   },
                   style: TextButton.styleFrom(
                     minimumSize: Size.zero,
