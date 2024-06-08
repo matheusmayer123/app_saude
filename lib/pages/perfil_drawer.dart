@@ -1,4 +1,5 @@
 import 'package:app_saude/pages/loginpage.dart';
+import 'package:app_saude/pages/update_profile.dart';
 import 'package:app_saude/providers/medico_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -124,6 +125,16 @@ class PerfilDrawer extends StatelessWidget {
                   .clearLoggedInMedico();
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => LoginPage()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text('Atualizar Dados'),
+            onTap: () {
+              Provider.of<MedicoProvider>(context, listen: false)
+                  .clearLoggedInMedico();
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UpdateProfilePage()));
             },
           ),
           ListTile(
